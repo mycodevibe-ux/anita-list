@@ -1,0 +1,24 @@
+# Environment Files & Secret Keys
+.env
+.env.*
+*.env
+backend/.env
+frontend/.env.local
+frontend/.env
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/vendor/
+
+# Next.js & Build Outputs
+frontend/.next/
+frontend/out/
+backend/public/storage
+backend/storage/*.key
+
+# IDE & OS Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
