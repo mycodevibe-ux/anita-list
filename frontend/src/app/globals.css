@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Primary Colors */
+  --color-coral: #C77065;
+  --color-olive: #8B9A6B;
+  --color-brown-dark: #2D1A14;
+  --color-beige: #EBE7DF;
+  --color-beige-dark: #CEBFA7;
+  
+  /* Brand Secondary/Status Colors */
+  --color-gray-light: #CEBFA7;
+  --color-gray-medium: #888888;
+  --color-text-dark: #2D1A14;
+  --color-gold: #D4A843;
+  --color-orange-arrow: #C77065;
+  
+  --color-status-green: #7D8E5B;
+  --color-status-yellow: #D4A843;
+  --color-status-red: #C85C5C;
+  
+  /* UI Layout Colors */
+  --color-cream: #EBE7DF;
+
+  /* Font Families mapped to Next.js font CSS variables */
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-accent: var(--font-accent), Georgia, serif;
+}
+
+/* Base style overrides */
+@layer base {
+  html, body {
+    background-color: #EBE7DF;
+    color: #2D1A14;
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Typography shortcuts */
+  h1, h2, h3, h4, h5, h6 {
+    color: #2D1A14;
+  }
+}

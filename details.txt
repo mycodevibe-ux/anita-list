@@ -1,0 +1,44 @@
+http://localhost:8000/admin
+Email: admin@anitaslist.com
+Password: admin123
+
+
+http://localhost:3000
+
+
+figd_hy6lBnQi7OW799ZmPwiO8Tz6ONw0Lo0FC9sbJXTA
+
+
+
+
+ १. मुख्य आणि पब्लिक पेजेस (Public & Main Pages):
+🏠 Homepage: http://localhost:3000
+🛍️ Browse All Products / Search: http://localhost:3000/products
+⭐ Recommended & Best Sellers: http://localhost:3000/products/recommended
+🛒 Pushchairs Category Listing: http://localhost:3000/products/transport/pushchairs
+🔎 Product Detail Page (PDP): http://localhost:3000/products/1/pushchairs/1
+💡 २. एक्सपर्ट ॲडव्हाइस आणि एडिटोरियल पेजेस (Expert Advice & Editorial):
+💡 Expert Advice Main Page: http://localhost:3000/expert-advice
+🤖 Interactive Advice Assistant Tool: http://localhost:3000/expert-advice/assistant
+🎙️ Anita's List Podcast: http://localhost:3000/podcast
+ℹ️ About Us: http://localhost:3000/about
+📞 Contact Us: http://localhost:3000/contact
+👤 ३. युझर ऑथेंटिकेशन आणि हब डॅशबोर्ड (Auth & Logged-In Hub):
+🔐 Login Page (Split-Screen): http://localhost:3000/login
+📝 Sign Up Page (Split-Screen): http://localhost:3000/signup
+📊 Main Hub Dashboard: http://localhost:3000/hub
+✏️ Edit Profile & Account Settings: http://localhost:3000/hub/profile
+📋 ४. लिस्ट्स आणि रजिस्ट्रीज पेजेस (Lists & Registries):
+📋 View All Lists (List Hub - Active Grid & Empty State): http://localhost:3000/hub/lists
+📄 Individual List Detail (Standard & Journey View): http://localhost:3000/hub/lists/1
+🎁 View All Registries (Registries Hub): http://localhost:3000/hub/registries
+🤝 Registry Detail (My Registry & Shared Guest View): http://localhost:3000/hub/registries/1
+📜 ५. फुटर आणि लिगल पेजेस (Footer & Legal Pages):
+❓ FAQs Page: http://localhost:3000/faq
+🤝 Work With Us: http://localhost:3000/work-with-us
+⚖️ Legal & Compliance: http://localhost:3000/legal
+🔒 Privacy Policy: http://localhost:3000/privacy-policy
+📜 Terms of Service: http://localhost:3000/terms-of-service
+🚚 Shipping Policy: http://localhost:3000/shipping-policy
+💸 Refund Policy: http://localhost:3000/refund-policy
+🍪 Cookie Declaration: http://localhost:3000/cookie-declaration
