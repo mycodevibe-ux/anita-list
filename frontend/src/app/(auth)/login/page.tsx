@@ -100,9 +100,9 @@ export default function Login() {
     }
   };
 
-  // Quick Master Login Handler
+  // Quick Login Handler for Master Admin & Regular User
   const handleQuickLogin = (email: string, name: string) => {
-    login("master_demo_token", {
+    login("quick_demo_token", {
       id: 1,
       name: name,
       email: email,
@@ -125,36 +125,36 @@ export default function Login() {
           </h2>
         </div>
 
-        {/* 1-Click Quick Master Login Buttons */}
-        <div className="p-3 bg-[#EBE7DF] border border-[#CEBFA7] flex flex-col gap-2">
+        {/* 1-Click Master Admin vs Regular User Login Selector */}
+        <div className="p-3.5 bg-[#EBE7DF] border border-[#CEBFA7] flex flex-col gap-2.5">
           <span className="font-sans text-[11px] font-bold text-[#2D1A14] uppercase tracking-wider text-center">
-            ⚡ Quick Demo Master Login
+            ⚡ 1-Click Quick Login Options
           </span>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2.5">
             <button
               type="button"
-              onClick={() => handleQuickLogin("admin@anitaslist.com", "Main Admin")}
-              className="py-2 px-3 bg-[#2D1A14] text-white font-sans text-xs font-bold hover:bg-[#C77065] transition-colors border-none cursor-pointer text-center"
+              onClick={() => handleQuickLogin("admin@anitaslist.com", "Main Admin (Master)")}
+              className="py-2.5 px-3 bg-[#2D1A14] text-white font-sans text-xs font-bold hover:bg-[#C77065] transition-colors border-none cursor-pointer text-center"
             >
               🔑 Master Admin
             </button>
             <button
               type="button"
-              onClick={() => handleQuickLogin("test@example.com", "Anne Johnson")}
-              className="py-2 px-3 bg-[#8B9A6B] text-white font-sans text-xs font-bold hover:bg-[#7a895b] transition-colors border-none cursor-pointer text-center"
+              onClick={() => handleQuickLogin("test@example.com", "Anne Johnson (Regular)")}
+              className="py-2.5 px-3 bg-[#8B9A6B] text-white font-sans text-xs font-bold hover:bg-[#7a895b] transition-colors border-none cursor-pointer text-center"
             >
-              👤 Demo User
+              👤 Regular User
             </button>
           </div>
         </div>
 
-        {/* Login form */}
+        {/* Standard Login form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <TextInput
             name="email"
             type="email"
             label="Email"
-            placeholder="admin@anitaslist.com"
+            placeholder="admin@anitaslist.com or test@example.com"
             value={formData.email}
             onChange={handleChange}
             error={errors.email}
@@ -185,7 +185,7 @@ export default function Login() {
           </Button>
         </form>
 
-        {/* Link to signup page */}
+        {/* Link to signup page for new Regular Users */}
         <div className="text-center text-xs font-sans text-gray-medium">
           Don't have an account?{" "}
           <Link href="/signup" className="underline font-semibold hover:text-text-dark transition-colors">
