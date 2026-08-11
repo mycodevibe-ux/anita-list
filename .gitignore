@@ -5,6 +5,7 @@
 backend/.env
 frontend/.env.local
 frontend/.env
+details.txt
 
 # Dependencies
 node_modules/
