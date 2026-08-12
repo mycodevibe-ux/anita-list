@@ -45,7 +45,8 @@ export const HeroCarousel: React.FC = () => {
           if (typeof window !== "undefined") {
             localStorage.setItem("cached_homepage_settings", JSON.stringify(data));
           }
-          const storageUrl = 'http://localhost:8000/storage/';
+          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+          const storageUrl = apiBase.replace(/\/api\/?$/, '') + '/storage/';
           
           if (Array.isArray(data.hero_slides) && data.hero_slides.length > 0) {
             const dynamicSlides = data.hero_slides.map((s: any, idx: number) => ({

@@ -1,19 +1,18 @@
 import axios from 'axios';
 
+const defaultBaseURL = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api',
+  baseURL: defaultBaseURL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  // Ensure withCredentials is true if we ever switch to stateful cookies, 
-  // but for token-based auth, we just rely on the interceptor.
   withCredentials: false, 
 });
 
 // Intercept requests to add the Bearer token
 api.interceptors.request.use((config) => {
-  // We'll read the token from localStorage if it exists
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('auth_token');
     if (token) {
