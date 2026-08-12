@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import React from "react";
 import { Header } from "@/components/layout/Header";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";

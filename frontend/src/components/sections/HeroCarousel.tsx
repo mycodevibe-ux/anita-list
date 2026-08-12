@@ -52,8 +52,8 @@ export const HeroCarousel: React.FC = () => {
             const dynamicSlides = data.hero_slides.map((s: any, idx: number) => ({
               id: idx + 1,
               imageUrl: s.image ? `${storageUrl}${s.image}` : defaultSlidesData[0].imageUrl,
-              title: s.title || defaultSlidesData[0].title,
-              subtitle: s.subtitle || defaultSlidesData[0].subtitle,
+              title: s.title ?? defaultSlidesData[0].title,
+              subtitle: s.subtitle ?? defaultSlidesData[0].subtitle,
             }));
             setSlides(dynamicSlides);
           } else if (data.hero_title) {
