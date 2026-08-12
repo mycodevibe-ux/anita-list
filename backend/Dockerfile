@@ -1,5 +1,8 @@
 FROM php:8.2-cli
 
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/var/www/html/database/database.sqlite
+
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -20,10 +23,10 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+RUN mkdir -p database && touch database/database.sqlite && chmod -R 777 storage bootstrap/cache database
 
-RUN chmod -R 777 storage bootstrap/cache
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "touch database/database.sqlite && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"]
