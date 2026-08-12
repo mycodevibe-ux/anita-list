@@ -150,8 +150,7 @@ Route::get('/homepage', function () {
         });
     }
 
-    $settings = \App\Models\HomePageSetting::firstOrCreate(
-        ['id' => 1],
+    $settings = \App\Models\HomePageSetting::latest('updated_at')->first() ?? \App\Models\HomePageSetting::create(
         [
             'hero_slides' => [
                 [
@@ -199,8 +198,7 @@ Route::get('/site-settings', function () {
         });
     }
 
-    $siteSettings = \App\Models\SiteSetting::firstOrCreate(
-        ['id' => 1],
+    $siteSettings = \App\Models\SiteSetting::latest('updated_at')->first() ?? \App\Models\SiteSetting::create(
         [
             'site_name' => "anita's list",
             'header_cta_label' => 'Create account',
