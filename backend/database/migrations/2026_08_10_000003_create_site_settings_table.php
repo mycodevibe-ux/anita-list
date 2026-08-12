@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('site_settings', function (Blueprint $table) {
+        if (!Schema::hasTable('site_settings')) {
+            Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
             
             // Header Settings
@@ -39,6 +40,7 @@ return new class extends Migration
 
             $table->timestamps();
         });
+        }
     }
 
     /**
