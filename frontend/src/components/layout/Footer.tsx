@@ -12,12 +12,15 @@ export const Footer: React.FC = () => {
     { label: "Work with us", href: "/work-with-us" },
   ];
 
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:8000/admin";
+
   const helpLinks = [
     { label: "Shipping policy", href: "/shipping-policy" },
     { label: "Refund policy", href: "/refund-policy" },
     { label: "Terms of service", href: "/terms-of-service" },
     { label: "Privacy policy", href: "/privacy-policy" },
     { label: "Cookie declaration", href: "/cookie-declaration" },
+    { label: "Admin CMS Panel", href: adminUrl },
   ];
 
   const parseHeading = (text: string) => {

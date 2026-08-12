@@ -128,7 +128,7 @@ export default function Login() {
         {/* 1-Click Master Admin vs Regular User Login Selector */}
         <div className="p-3.5 bg-[#EBE7DF] border border-[#CEBFA7] flex flex-col gap-2.5">
           <span className="font-sans text-[11px] font-bold text-[#2D1A14] uppercase tracking-wider text-center">
-            ⚡ 1-Click Quick Login Options
+            ⚡ 1-Click Quick Login & Admin Access
           </span>
           <div className="grid grid-cols-2 gap-2.5">
             <button
@@ -136,7 +136,7 @@ export default function Login() {
               onClick={() => handleQuickLogin("admin@anitaslist.com", "Main Admin (Master)")}
               className="py-2.5 px-3 bg-[#2D1A14] text-white font-sans text-xs font-bold hover:bg-[#C77065] transition-colors border-none cursor-pointer text-center"
             >
-              🔑 Master Admin
+              🔑 Master Admin Hub
             </button>
             <button
               type="button"
@@ -146,6 +146,14 @@ export default function Login() {
               👤 Regular User
             </button>
           </div>
+          <a
+            href={process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:8000/admin"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-2 px-3 bg-[#C77065] text-white font-sans text-xs font-bold hover:bg-[#b05d52] transition-colors text-center text-decoration-none block"
+          >
+            🛠️ Open Admin CMS Panel (Content Update)
+          </a>
         </div>
 
         {/* Standard Login form */}
