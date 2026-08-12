@@ -36,14 +36,40 @@ class DatabaseSeeder extends Seeder
         \App\Models\HomePageSetting::firstOrCreate(
             ['id' => 1],
             [
+                'hero_slides' => [
+                    [
+                        'title' => 'Helping you choose the right baby essentials, based on *decades of trusted expertise.*',
+                        'subtitle' => 'Discover baby essentials, seek advice and curate a list that feels right for you and your future little one.',
+                        'image' => null,
+                    ],
+                ],
                 'hero_title' => 'Helping you choose the right baby essentials, based on *decades of trusted expertise.*',
                 'hero_subtitle' => 'Discover baby essentials, seek advice and curate a list that feels right for you and your future little one.',
-                'hero_title_2' => 'Curate lists together with friends, family and *your loved ones.*',
-                'hero_subtitle_2' => 'Share your registry links easily and coordinate gifts seamlessly.',
-                'hero_title_3' => 'Find expert suggestions for every stage of *your parenting journey.*',
-                'hero_subtitle_3' => 'From newborn clothes to monitors and travel gear, we have you covered.',
                 'expert_advice_title' => 'Personalised advice based on years of experience',
                 'expert_advice_description' => "Anita's list was created to strip away the noise and bring clarity to baby shopping.",
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['id' => 1],
+            [
+                'site_name' => "anita's list",
+                'announcement_text' => "Anita's List - Choose, organise and buy your baby kit",
+                'header_links' => [
+                    ['label' => 'Products', 'href' => '/products'],
+                    ['label' => 'Expert advice', 'href' => '/expert-advice'],
+                    ['label' => 'About', 'href' => '/about'],
+                    ['label' => 'Contact', 'href' => '/contact'],
+                ],
+                'header_cta_label' => 'My lists',
+                'header_cta_href' => '/hub/lists',
+                'footer_logo_symbol' => 'a',
+                'footer_newsletter_title' => 'BE IN THE KNOW',
+                'footer_newsletter_subtitle' => 'Be the first to know about new collections, news and *exclusive offers*',
+                'footer_copyright' => '@2026, Anita\'s List',
+                'login_badge' => 'WELCOME BACK TO ANITA\'S LIST',
+                'login_title' => 'Sign in to access your curated lists & recommendations.',
+                'login_button_text' => 'Sign in',
             ]
         );
 

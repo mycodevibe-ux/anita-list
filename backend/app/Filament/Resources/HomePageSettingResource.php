@@ -32,50 +32,25 @@ class HomePageSettingResource extends Resource
                         Forms\Components\Tabs\Tab::make('Hero Slider Section')
                             ->icon('heroicon-o-presentation-chart-bar')
                             ->schema([
-                                Forms\Components\Section::make('Slide 1')
+                                Forms\Components\Repeater::make('hero_slides')
+                                    ->label('Hero Banner Slides')
                                     ->schema([
-                                        Forms\Components\TextInput::make('hero_title')
-                                            ->label('Title 1')
+                                        Forms\Components\TextInput::make('title')
+                                            ->label('Slide Title (Use *text* for italics)')
                                             ->required()
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('hero_subtitle')
-                                            ->label('Subtitle 1')
-                                            ->required()
-                                            ->maxLength(255),
-                                        Forms\Components\FileUpload::make('hero_image_1')
-                                            ->label('Background Image 1')
+                                            ->placeholder('e.g. Helping you choose the right baby essentials...'),
+                                        Forms\Components\TextInput::make('subtitle')
+                                            ->label('Slide Subtitle')
+                                            ->placeholder('e.g. Discover baby essentials, seek advice...'),
+                                        Forms\Components\FileUpload::make('image')
+                                            ->label('Background Image')
                                             ->image()
                                             ->deletable()
                                             ->directory('homepage'),
-                                    ]),
-                                Forms\Components\Section::make('Slide 2')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('hero_title_2')
-                                            ->label('Title 2')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('hero_subtitle_2')
-                                            ->label('Subtitle 2')
-                                            ->maxLength(255),
-                                        Forms\Components\FileUpload::make('hero_image_2')
-                                            ->label('Background Image 2')
-                                            ->image()
-                                            ->deletable()
-                                            ->directory('homepage'),
-                                    ]),
-                                Forms\Components\Section::make('Slide 3')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('hero_title_3')
-                                            ->label('Title 3')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('hero_subtitle_3')
-                                            ->label('Subtitle 3')
-                                            ->maxLength(255),
-                                        Forms\Components\FileUpload::make('hero_image_3')
-                                            ->label('Background Image 3')
-                                            ->image()
-                                            ->deletable()
-                                            ->directory('homepage'),
-                                    ]),
+                                    ])
+                                    ->collapsible()
+                                    ->defaultItems(1)
+                                    ->addActionLabel('+ Add Slide')
                             ]),
 
                         Forms\Components\Tabs\Tab::make('How It Works Section')

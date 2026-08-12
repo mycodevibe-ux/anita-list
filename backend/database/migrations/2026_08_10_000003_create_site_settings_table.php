@@ -16,6 +16,7 @@ return new class extends Migration
             
             // Header Settings
             $table->string('site_name')->default("anita's list");
+            $table->string('announcement_text')->nullable();
             $table->string('header_logo')->nullable();
             $table->json('header_links')->nullable();
             $table->string('header_cta_label')->default('Create account');
@@ -29,6 +30,12 @@ return new class extends Migration
             $table->json('footer_brand_links')->nullable();
             $table->json('footer_help_links')->nullable();
             $table->text('footer_copyright')->nullable();
+
+            // Login/Signup Banner Settings
+            $table->string('login_badge')->nullable();
+            $table->string('login_title')->nullable();
+            $table->string('login_button_text')->nullable();
+            $table->string('login_image')->nullable();
 
             $table->timestamps();
         });

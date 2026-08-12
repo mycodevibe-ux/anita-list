@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HomePageSetting extends Model
 {
     protected $fillable = [
+        'hero_slides',
         'hero_title',
         'hero_subtitle',
         'hero_title_2',
@@ -28,5 +29,9 @@ class HomePageSetting extends Model
         'expert_advice_description',
         'expert_advice_image',
         'brand_partners_title',
+    ];
+
+    protected $casts = [
+        'hero_slides' => 'array',
     ];
 }

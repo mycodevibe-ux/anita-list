@@ -153,12 +153,15 @@ Route::get('/homepage', function () {
     $settings = \App\Models\HomePageSetting::firstOrCreate(
         ['id' => 1],
         [
+            'hero_slides' => [
+                [
+                    'title' => 'Helping you choose the right baby essentials, based on *decades of trusted expertise.*',
+                    'subtitle' => 'Discover baby essentials, seek advice and curate a list that feels right for you and your future little one.',
+                    'image' => null,
+                ],
+            ],
             'hero_title' => 'Helping you choose the right baby essentials, based on *decades of trusted expertise.*',
             'hero_subtitle' => 'Discover baby essentials, seek advice and curate a list that feels right for you and your future little one.',
-            'hero_title_2' => 'Curate lists together with friends, family and *your loved ones.*',
-            'hero_subtitle_2' => 'Share your registry links easily and coordinate gifts seamlessly.',
-            'hero_title_3' => 'Find expert suggestions for every stage of *your parenting journey.*',
-            'hero_subtitle_3' => 'From newborn clothes to monitors and travel gear, we have you covered.',
             'how_it_works_title' => 'How it works: A clear, expert-led approach to baby shopping',
             'how_it_works_subtitle' => 'HOW IT WORKS',
             'step1_title' => 'Discover recommendations',

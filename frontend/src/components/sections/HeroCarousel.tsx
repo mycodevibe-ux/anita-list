@@ -30,110 +30,41 @@ const defaultSlidesData: HeroSlide[] = [
     title: "Find expert suggestions for every stage of *your parenting journey.*",
     subtitle: "From newborn clothes to monitors and travel gear, we have you covered.",
   },
-  {
-    id: 4,
-    imageUrl: "/images/banner4.jpg",
-    title: "Discover top rated baby products *curated by Anita.*",
-    subtitle: "Explore our collection of handpicked gear designed for safety, comfort and elegance.",
-  },
-  {
-    id: 5,
-    imageUrl: "/images/banner5.jpg",
-    title: "Personalised nursery & registry *consultations.*",
-    subtitle: "Get tailored guidance from experienced maternity nurses to prepare for your newborn.",
-  },
 ];
 
 export const HeroCarousel: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [slides, setSlides] = useState<HeroSlide[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const adminHome = localStorage.getItem("anita_home_settings");
-        if (adminHome) {
-          const custom = JSON.parse(adminHome);
-          return [
-            {
-              id: 1,
-              imageUrl: defaultSlidesData[0].imageUrl,
-              title: custom.heroTitle1 || defaultSlidesData[0].title,
-              subtitle: custom.heroSubtitle1 || defaultSlidesData[0].subtitle,
-            },
-            {
-              id: 2,
-              imageUrl: defaultSlidesData[1].imageUrl,
-              title: custom.heroTitle2 || defaultSlidesData[1].title,
-              subtitle: custom.heroSubtitle2 || defaultSlidesData[1].subtitle,
-            },
-            {
-              id: 3,
-              imageUrl: defaultSlidesData[2].imageUrl,
-              title: custom.heroTitle3 || defaultSlidesData[2].title,
-              subtitle: custom.heroSubtitle3 || defaultSlidesData[2].subtitle,
-            },
-            {
-              id: 4,
-              imageUrl: defaultSlidesData[3].imageUrl,
-              title: defaultSlidesData[3].title,
-              subtitle: defaultSlidesData[3].subtitle,
-            },
-            {
-              id: 5,
-              imageUrl: defaultSlidesData[4].imageUrl,
-              title: defaultSlidesData[4].title,
-              subtitle: defaultSlidesData[4].subtitle,
-            },
-          ];
-        }
-      } catch (e) {
-        console.error("Failed to parse local home settings", e);
-      }
-    }
-    return defaultSlidesData;
-  });
+  const [slides, setSlides] = useState<HeroSlide[]>([defaultSlidesData[0]]);
 
   useEffect(() => {
     const fetchSettings = async () => {
       try {
         const res = await api.get('/homepage');
         const data = res.data;
-        if (data && (data.hero_title || data.hero_image_1)) {
+        if (data) {
           if (typeof window !== "undefined") {
             localStorage.setItem("cached_homepage_settings", JSON.stringify(data));
           }
           const storageUrl = 'http://localhost:8000/storage/';
-          setSlides([
-            {
-              id: 1,
-              imageUrl: data.hero_image_1 ? `${storageUrl}${data.hero_image_1}` : defaultSlidesData[0].imageUrl,
-              title: data.hero_title || defaultSlidesData[0].title,
-              subtitle: data.hero_subtitle || defaultSlidesData[0].subtitle,
-            },
-            {
-              id: 2,
-              imageUrl: data.hero_image_2 ? `${storageUrl}${data.hero_image_2}` : defaultSlidesData[1].imageUrl,
-              title: data.hero_title_2 || defaultSlidesData[1].title,
-              subtitle: data.hero_subtitle_2 || defaultSlidesData[1].subtitle,
-            },
-            {
-              id: 3,
-              imageUrl: data.hero_image_3 ? `${storageUrl}${data.hero_image_3}` : defaultSlidesData[2].imageUrl,
-              title: data.hero_title_3 || defaultSlidesData[2].title,
-              subtitle: data.hero_subtitle_3 || defaultSlidesData[2].subtitle,
-            },
-            {
-              id: 4,
-              imageUrl: data.hero_image_4 ? `${storageUrl}${data.hero_image_4}` : defaultSlidesData[3].imageUrl,
-              title: data.hero_title_4 || defaultSlidesData[3].title,
-              subtitle: data.hero_subtitle_4 || defaultSlidesData[3].subtitle,
-            },
-            {
-              id: 5,
-              imageUrl: data.hero_image_5 ? `${storageUrl}${data.hero_image_5}` : defaultSlidesData[4].imageUrl,
-              title: data.hero_title_5 || defaultSlidesData[4].title,
-              subtitle: data.hero_subtitle_5 || defaultSlidesData[4].subtitle,
-            },
-          ]);
+          
+          if (Array.isArray(data.hero_slides) && data.hero_slides.length > 0) {
+            const dynamicSlides = data.hero_slides.map((s: any, idx: number) => ({
+              id: idx + 1,
+              imageUrl: s.image ? `${storageUrl}${s.image}` : defaultSlidesData[0].imageUrl,
+              title: s.title || defaultSlidesData[0].title,
+              subtitle: s.subtitle || defaultSlidesData[0].subtitle,
+            }));
+            setSlides(dynamicSlides);
+          } else if (data.hero_title) {
+            setSlides([
+              {
+                id: 1,
+                imageUrl: data.hero_image_1 ? `${storageUrl}${data.hero_image_1}` : defaultSlidesData[0].imageUrl,
+                title: data.hero_title || defaultSlidesData[0].title,
+                subtitle: data.hero_subtitle || defaultSlidesData[0].subtitle,
+              },
+            ]);
+          }
         }
       } catch (e) {
         console.error("Failed to load hero settings from backend", e);
@@ -143,7 +74,10 @@ export const HeroCarousel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (slides.length <= 1) return;
+    if (slides.length <= 1) {
+      setActiveSlide(0);
+      return;
+    }
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
@@ -214,19 +148,21 @@ export const HeroCarousel: React.FC = () => {
             </Link>
           </div>
 
-          {/* Clean Slide Pagination Indicator Dots (No background container box) */}
-          <div className="flex items-center gap-3 self-end mb-6 z-20">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveSlide(idx)}
-                className={`w-3 h-3 rounded-full border-none cursor-pointer transition-all duration-300 ${
-                  idx === activeSlide ? 'bg-[#C77065] scale-125 shadow-md' : 'bg-[#2D1A14]/40 hover:bg-[#2D1A14]/70'
-                }`}
-                aria-label={`Slide ${idx + 1}`}
-              />
-            ))}
-          </div>
+          {/* Clean Slide Pagination Indicator Dots (Only if multiple slides exist) */}
+          {slides.length > 1 && (
+            <div className="flex items-center gap-3 self-end mb-6 z-20">
+              {slides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveSlide(idx)}
+                  className={`w-3 h-3 rounded-full border-none cursor-pointer transition-all duration-300 ${
+                    idx === activeSlide ? 'bg-[#C77065] scale-125 shadow-md' : 'bg-[#2D1A14]/40 hover:bg-[#2D1A14]/70'
+                  }`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

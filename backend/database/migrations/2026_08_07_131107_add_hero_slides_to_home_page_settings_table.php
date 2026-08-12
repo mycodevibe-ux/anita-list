@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('home_page_settings', function (Blueprint $table) {
-            $table->string('hero_title_2')->nullable();
-            $table->string('hero_subtitle_2')->nullable();
-            $table->string('hero_title_3')->nullable();
-            $table->string('hero_subtitle_3')->nullable();
-        });
+        if (!Schema::hasColumn('home_page_settings', 'hero_title_2')) {
+            Schema::table('home_page_settings', function (Blueprint $table) {
+                $table->string('hero_title_2')->nullable();
+                $table->string('hero_subtitle_2')->nullable();
+                $table->string('hero_title_3')->nullable();
+                $table->string('hero_subtitle_3')->nullable();
+            });
+        }
     }
 
     /**

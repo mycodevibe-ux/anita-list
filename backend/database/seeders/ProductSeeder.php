@@ -14,10 +14,11 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = Category::whereNotNull('parent_id')->get();
+        $categories = Category::all();
 
         if ($categories->isEmpty()) {
-            return;
+            $cat = Category::create(['name' => 'Pushchairs & Strollers', 'slug' => 'pushchairs-strollers']);
+            $categories = collect([$cat]);
         }
 
         $dummyProducts = [
