@@ -6,19 +6,8 @@ ENV APP_KEY=base64:GFJvxsWXPiH+z4NNJ9J9YgbcMmPkKok2fZbMy/nfMU4=
 ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libsqlite3-dev \
-    zip \
-    unzip \
-    libzip-dev \
-    libicu-dev
-
-RUN docker-php-ext-configure intl && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd zip intl
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd zip intl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
