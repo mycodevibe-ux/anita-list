@@ -39,7 +39,7 @@ export const HeroCarousel: React.FC = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await api.get('/homepage');
+        const res = await api.get(`/homepage?t=${Date.now()}`);
         const data = res.data;
         if (data) {
           if (typeof window !== "undefined") {
