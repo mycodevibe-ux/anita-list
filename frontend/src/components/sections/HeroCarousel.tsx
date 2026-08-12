@@ -49,45 +49,44 @@ export const HeroCarousel: React.FC = () => {
   const [slides, setSlides] = useState<HeroSlide[]>(() => {
     if (typeof window !== "undefined") {
       try {
-        const cached = localStorage.getItem("cached_homepage_settings");
-        if (cached) {
-          const data = JSON.parse(cached);
-          const storageUrl = 'http://localhost:8000/storage/';
+        const adminHome = localStorage.getItem("anita_home_settings");
+        if (adminHome) {
+          const custom = JSON.parse(adminHome);
           return [
             {
               id: 1,
-              imageUrl: data.hero_image_1 ? `${storageUrl}${data.hero_image_1}` : defaultSlidesData[0].imageUrl,
-              title: data.hero_title || defaultSlidesData[0].title,
-              subtitle: data.hero_subtitle || defaultSlidesData[0].subtitle,
+              imageUrl: defaultSlidesData[0].imageUrl,
+              title: custom.heroTitle1 || defaultSlidesData[0].title,
+              subtitle: custom.heroSubtitle1 || defaultSlidesData[0].subtitle,
             },
             {
               id: 2,
-              imageUrl: data.hero_image_2 ? `${storageUrl}${data.hero_image_2}` : defaultSlidesData[1].imageUrl,
-              title: data.hero_title_2 || defaultSlidesData[1].title,
-              subtitle: data.hero_subtitle_2 || defaultSlidesData[1].subtitle,
+              imageUrl: defaultSlidesData[1].imageUrl,
+              title: custom.heroTitle2 || defaultSlidesData[1].title,
+              subtitle: custom.heroSubtitle2 || defaultSlidesData[1].subtitle,
             },
             {
               id: 3,
-              imageUrl: data.hero_image_3 ? `${storageUrl}${data.hero_image_3}` : defaultSlidesData[2].imageUrl,
-              title: data.hero_title_3 || defaultSlidesData[2].title,
-              subtitle: data.hero_subtitle_3 || defaultSlidesData[2].subtitle,
+              imageUrl: defaultSlidesData[2].imageUrl,
+              title: custom.heroTitle3 || defaultSlidesData[2].title,
+              subtitle: custom.heroSubtitle3 || defaultSlidesData[2].subtitle,
             },
             {
               id: 4,
-              imageUrl: data.hero_image_4 ? `${storageUrl}${data.hero_image_4}` : defaultSlidesData[3].imageUrl,
-              title: data.hero_title_4 || defaultSlidesData[3].title,
-              subtitle: data.hero_subtitle_4 || defaultSlidesData[3].subtitle,
+              imageUrl: defaultSlidesData[3].imageUrl,
+              title: defaultSlidesData[3].title,
+              subtitle: defaultSlidesData[3].subtitle,
             },
             {
               id: 5,
-              imageUrl: data.hero_image_5 ? `${storageUrl}${data.hero_image_5}` : defaultSlidesData[4].imageUrl,
-              title: data.hero_title_5 || defaultSlidesData[4].title,
-              subtitle: data.hero_subtitle_5 || defaultSlidesData[4].subtitle,
+              imageUrl: defaultSlidesData[4].imageUrl,
+              title: defaultSlidesData[4].title,
+              subtitle: defaultSlidesData[4].subtitle,
             },
           ];
         }
       } catch (e) {
-        console.error("Failed to parse cached homepage settings", e);
+        console.error("Failed to parse local home settings", e);
       }
     }
     return defaultSlidesData;

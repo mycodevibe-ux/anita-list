@@ -146,14 +146,12 @@ export default function Login() {
               👤 Regular User
             </button>
           </div>
-          <a
-            href={process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:8000/admin"}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/admin"
             className="w-full py-2 px-3 bg-[#C77065] text-white font-sans text-xs font-bold hover:bg-[#b05d52] transition-colors text-center text-decoration-none block"
           >
             🛠️ Open Admin CMS Panel (Content Update)
-          </a>
+          </Link>
         </div>
 
         {/* Standard Login form */}
