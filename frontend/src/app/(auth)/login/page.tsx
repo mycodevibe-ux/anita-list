@@ -146,12 +146,14 @@ export default function Login() {
               👤 Regular User
             </button>
           </div>
-          <Link
-            href="/admin"
+          <a
+            href={process.env.NEXT_PUBLIC_ADMIN_URL || "https://anita-list.onrender.com/admin"}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full py-2 px-3 bg-[#C77065] text-white font-sans text-xs font-bold hover:bg-[#b05d52] transition-colors text-center text-decoration-none block"
           >
-            🛠️ Open Admin CMS Panel (Content Update)
-          </Link>
+            🛠️ Open Original Filament Admin Panel
+          </a>
         </div>
 
         {/* Standard Login form */}
