@@ -1,9 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import api from "@/lib/api";
 
 export const BrandPartners: React.FC = () => {
-  const title = "OUR TRUSTED BRAND PARTNERS:";
+  const [title, setTitle] = useState("OUR TRUSTED BRAND PARTNERS:");
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await api.get(`/homepage?t=${Date.now()}`);
+        if (res.data?.brand_partners_title) {
+          setTitle(res.data.brand_partners_title);
+        }
+      } catch (e) {
+        console.error("Failed to load brand partners title", e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   return (
     <section className="w-full bg-[#EBE7DF] py-8 px-6 md:px-12 lg:px-16 border-b border-[#CEBFA7]">

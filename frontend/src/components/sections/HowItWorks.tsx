@@ -1,32 +1,73 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import api from "@/lib/api";
+
+const defaultContent = {
+  subtitle: "HOW IT WORKS",
+  title: "How it works: A clear, expert-led approach to baby shopping",
+};
+
+const defaultSteps = [
+  {
+    number: 1,
+    title: "*Get started* by creating your own Anita’s list account.",
+  },
+  {
+    number: 2,
+    title: "*Create* either your own list or start off by using our journey list.",
+  },
+  {
+    number: 3,
+    title: "*Browse products* and expert advice and build out your curated list.",
+  },
+  {
+    number: 4,
+    title: "*Turn your list* into a registry and share with friends and family.",
+  },
+];
 
 export const HowItWorks: React.FC = () => {
-  const content = {
-    subtitle: "HOW IT WORKS",
-    title: "Lorem ipsum dolor sit amet consectetur. Bibendum odio sit amet aliquam sit ultrices *nibh feugiat lacus.*",
-  };
+  const [content, setContent] = useState(defaultContent);
+  const [steps, setSteps] = useState(defaultSteps);
 
-  const steps = [
-    {
-      number: 1,
-      title: "*Get started* by creating your own Anita’s list account.",
-    },
-    {
-      number: 2,
-      title: "*Create* either your own list or start off by using our journey list.",
-    },
-    {
-      number: 3,
-      title: "*Browse products* and expert advice and build out your curated list.",
-    },
-    {
-      number: 4,
-      title: "*Turn your list* into a registry and share with friends and family.",
-    },
-  ];
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await api.get(`/homepage?t=${Date.now()}`);
+        const data = res.data;
+        if (data) {
+          setContent({
+            subtitle: data.how_it_works_subtitle || defaultContent.subtitle,
+            title: data.how_it_works_title || defaultContent.title,
+          });
+
+          setSteps([
+            {
+              number: 1,
+              title: data.step1_title ? (data.step1_description ? `${data.step1_title} - ${data.step1_description}` : data.step1_title) : defaultSteps[0].title,
+            },
+            {
+              number: 2,
+              title: data.step2_title ? (data.step2_description ? `${data.step2_title} - ${data.step2_description}` : data.step2_title) : defaultSteps[1].title,
+            },
+            {
+              number: 3,
+              title: data.step3_title ? (data.step3_description ? `${data.step3_title} - ${data.step3_description}` : data.step3_title) : defaultSteps[2].title,
+            },
+            {
+              number: 4,
+              title: data.step4_title || defaultSteps[3].title,
+            },
+          ]);
+        }
+      } catch (e) {
+        console.error("Failed to load how it works settings", e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const parseHeading = (text: string) => {
     return text.split(/(\*[^*]+\*)/g).map((part, idx) => {

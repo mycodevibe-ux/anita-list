@@ -1,15 +1,47 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import api from "@/lib/api";
+
+const defaultContent = {
+  subtitle: "EXPERT ADVICE",
+  title: "Personalised advice based on years of experience",
+  description: "Anita's list was created to strip away the noise and bring clarity to baby shopping.",
+  imageUrl: "/images/anita.png",
+};
 
 export const ExpertAdviceSection: React.FC = () => {
-  const content = {
-    subtitle: "EXPERT ADVICE",
-    title: "Lorem ipsum dolor sit amet consectetur. A mi elementum in feugiat non elementum volutpat fames. Purus sit dolor lobortis semper platea nunc quis nulla.",
-    description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id. Tellus auctor risus pharetra sem. Neque lectus rhoncus lacinia non diam velit malesuada vel.",
-    imageUrl: "/images/anita.png",
-  };
+  const [content, setContent] = useState(defaultContent);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await api.get(`/homepage?t=${Date.now()}`);
+        const data = res.data;
+        if (data) {
+          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+          const baseUrl = apiBase.replace(/\/api\/?$/, '');
+          
+          let img = defaultContent.imageUrl;
+          if (data.expert_advice_image) {
+            const cleanPath = data.expert_advice_image.startsWith('/') ? data.expert_advice_image : `/${data.expert_advice_image}`;
+            img = cleanPath.startsWith('/storage/') ? `${baseUrl}${cleanPath}` : `${baseUrl}/storage${cleanPath}`;
+          }
+
+          setContent({
+            subtitle: "EXPERT ADVICE",
+            title: data.expert_advice_title || defaultContent.title,
+            description: data.expert_advice_description || defaultContent.description,
+            imageUrl: img,
+          });
+        }
+      } catch (e) {
+        console.error("Failed to load expert advice settings", e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   return (
     <section className="w-full bg-[#EBE7DF] py-0 px-6 md:px-12 lg:px-16">

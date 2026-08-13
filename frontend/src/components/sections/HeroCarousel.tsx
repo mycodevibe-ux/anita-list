@@ -45,22 +45,32 @@ export const HeroCarousel: React.FC = () => {
           if (typeof window !== "undefined") {
             localStorage.setItem("cached_homepage_settings", JSON.stringify(data));
           }
-          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
-          const storageUrl = apiBase.replace(/\/api\/?$/, '') + '/storage/';
           
+          const resolveImageUrl = (img?: string | null, fallback: string = defaultSlidesData[0].imageUrl) => {
+            if (!img) return fallback;
+            if (img.startsWith('http://') || img.startsWith('https://')) return img;
+            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+            const baseUrl = apiBase.replace(/\/api\/?$/, '');
+            const cleanPath = img.startsWith('/') ? img : `/${img}`;
+            if (cleanPath.startsWith('/storage/')) {
+              return `${baseUrl}${cleanPath}`;
+            }
+            return `${baseUrl}/storage${cleanPath}`;
+          };
+
           if (Array.isArray(data.hero_slides) && data.hero_slides.length > 0) {
             const dynamicSlides = data.hero_slides.map((s: any, idx: number) => ({
               id: idx + 1,
-              imageUrl: s.image ? `${storageUrl}${s.image}` : defaultSlidesData[0].imageUrl,
-              title: s.title ?? defaultSlidesData[0].title,
-              subtitle: s.subtitle ?? defaultSlidesData[0].subtitle,
+              imageUrl: resolveImageUrl(s.image, defaultSlidesData[idx % defaultSlidesData.length]?.imageUrl || defaultSlidesData[0].imageUrl),
+              title: s.title || data.hero_title || defaultSlidesData[0].title,
+              subtitle: s.subtitle || data.hero_subtitle || defaultSlidesData[0].subtitle,
             }));
             setSlides(dynamicSlides);
-          } else if (data.hero_title) {
+          } else if (data.hero_title || data.hero_image_1) {
             setSlides([
               {
                 id: 1,
-                imageUrl: data.hero_image_1 ? `${storageUrl}${data.hero_image_1}` : defaultSlidesData[0].imageUrl,
+                imageUrl: resolveImageUrl(data.hero_image_1, defaultSlidesData[0].imageUrl),
                 title: data.hero_title || defaultSlidesData[0].title,
                 subtitle: data.hero_subtitle || defaultSlidesData[0].subtitle,
               },
