@@ -1,9 +1,18 @@
 import axios from 'axios';
 
-const defaultBaseURL = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+export const getApiBaseUrl = () => {
+  let envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1')) {
+    envUrl = 'https://anita-list-backend-production.up.railway.app/api';
+  }
+  if (envUrl.startsWith('http://')) {
+    envUrl = envUrl.replace('http://', 'https://');
+  }
+  return envUrl.replace(/\/api\/?$/, '');
+};
 
 const api = axios.create({
-  baseURL: defaultBaseURL,
+  baseURL: `${getApiBaseUrl()}/api`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

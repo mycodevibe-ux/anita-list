@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getApiBaseUrl } from "@/lib/api";
 
 const defaultContent = {
   subtitle: "EXPERT ADVICE",
@@ -20,13 +20,16 @@ export const ExpertAdviceSection: React.FC = () => {
         const res = await api.get(`/homepage?t=${Date.now()}`);
         const data = res.data;
         if (data) {
-          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
-          const baseUrl = apiBase.replace(/\/api\/?$/, '');
+          const baseUrl = getApiBaseUrl();
           
           let img = defaultContent.imageUrl;
           if (data.expert_advice_image) {
-            const cleanPath = data.expert_advice_image.startsWith('/') ? data.expert_advice_image : `/${data.expert_advice_image}`;
-            img = cleanPath.startsWith('/storage/') ? `${baseUrl}${cleanPath}` : `${baseUrl}/storage${cleanPath}`;
+            if (data.expert_advice_image.startsWith('http://') || data.expert_advice_image.startsWith('https://')) {
+              img = data.expert_advice_image.replace('http://', 'https://');
+            } else {
+              const cleanPath = data.expert_advice_image.startsWith('/') ? data.expert_advice_image : `/${data.expert_advice_image}`;
+              img = cleanPath.startsWith('/storage/') ? `${baseUrl}${cleanPath}` : `${baseUrl}/storage${cleanPath}`;
+            }
           }
 
           setContent({

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import api from "@/lib/api";
+import api, { getApiBaseUrl } from "@/lib/api";
 
 export interface HeroSlide {
   id: number;
@@ -48,9 +48,10 @@ export const HeroCarousel: React.FC = () => {
           
           const resolveImageUrl = (img?: string | null, fallback: string = defaultSlidesData[0].imageUrl) => {
             if (!img) return fallback;
-            if (img.startsWith('http://') || img.startsWith('https://')) return img;
-            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
-            const baseUrl = apiBase.replace(/\/api\/?$/, '');
+            if (img.startsWith('http://') || img.startsWith('https://')) {
+              return img.replace('http://', 'https://');
+            }
+            const baseUrl = getApiBaseUrl();
             const cleanPath = img.startsWith('/') ? img : `/${img}`;
             if (cleanPath.startsWith('/storage/')) {
               return `${baseUrl}${cleanPath}`;
