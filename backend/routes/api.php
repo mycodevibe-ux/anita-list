@@ -150,8 +150,9 @@ Route::get('/homepage', function () {
         });
     }
 
-    $settings = \App\Models\HomePageSetting::latest('updated_at')->first() ?? \App\Models\HomePageSetting::create(
-        [
+    $settings = \App\Models\HomePageSetting::first();
+    if (!$settings) {
+        $settings = \App\Models\HomePageSetting::create([
             'hero_slides' => [
                 [
                     'title' => 'Helping you choose the right baby essentials, based on *decades of trusted expertise.*',
@@ -172,8 +173,8 @@ Route::get('/homepage', function () {
             'expert_advice_title' => 'Personalised advice based on years of experience',
             'expert_advice_description' => "Anita's list was created to strip away the noise and bring clarity to baby shopping.",
             'brand_partners_title' => 'Trusted by leading baby brands worldwide',
-        ]
-    );
+        ]);
+    }
     return response()->json($settings);
 });
 
