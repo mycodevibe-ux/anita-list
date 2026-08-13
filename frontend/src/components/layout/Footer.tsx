@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
     { label: "Work with us", href: "/work-with-us" },
   ];
 
-  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:8000/admin";
+  const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || "https://anita-list-backend-production.up.railway.app/admin";
 
   const helpLinks = [
     { label: "Shipping policy", href: "/shipping-policy" },

@@ -36,8 +36,10 @@ export default function SignUp() {
       try {
         const res = await api.get('/site-settings');
         if (res.data) {
+          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+          const storageUrl = apiBase.replace(/\/api\/?$/, '') + '/storage/';
           setSignupSettings({
-            image: res.data.signup_image ? `http://localhost:8000/storage/${res.data.signup_image}` : "/images/signup-banner.png",
+            image: res.data.signup_image ? `${storageUrl}${res.data.signup_image}` : "/images/signup-banner.png",
             badge: res.data.signup_badge || "JOIN ANITA'S LIST",
             title: res.data.signup_title || "Create an account to start curating your baby lists.",
             buttonText: res.data.signup_button_text || "Create account",

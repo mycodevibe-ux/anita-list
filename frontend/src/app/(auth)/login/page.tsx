@@ -32,8 +32,10 @@ export default function Login() {
       try {
         const res = await api.get('/site-settings');
         if (res.data) {
+          const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+          const storageUrl = apiBase.replace(/\/api\/?$/, '') + '/storage/';
           setLoginSettings({
-            image: res.data.login_image ? `http://localhost:8000/storage/${res.data.login_image}` : "/images/signup-banner.png",
+            image: res.data.login_image ? `${storageUrl}${res.data.login_image}` : "/images/signup-banner.png",
             badge: res.data.login_badge || "WELCOME BACK TO ANITA'S LIST",
             title: res.data.login_title || "Sign in to access your curated lists & recommendations.",
             buttonText: res.data.login_button_text || "Sign in",
@@ -147,7 +149,7 @@ export default function Login() {
             </button>
           </div>
           <a
-            href={process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:8000/admin"}
+            href={process.env.NEXT_PUBLIC_ADMIN_URL || "https://anita-list-backend-production.up.railway.app/admin"}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-2 px-3 bg-[#C77065] text-white font-sans text-xs font-bold hover:bg-[#b05d52] transition-colors text-center text-decoration-none block"
