@@ -41,6 +41,29 @@ class ProductResource extends Resource
                     ->image(),
                 Forms\Components\Toggle::make('is_recommended')
                     ->required(),
+                Forms\Components\Section::make('Buying Options (Retailers)')
+                    ->schema([
+                        Forms\Components\Repeater::make('buyingOptions')
+                            ->relationship('buyingOptions')
+                            ->schema([
+                                Forms\Components\TextInput::make('retailer_name')->label('Retailer Name')->required(),
+                                Forms\Components\TextInput::make('price')->label('Price (£)')->required(),
+                                Forms\Components\TextInput::make('affiliate_link')->label('Buy Link / URL'),
+                            ])
+                            ->collapsible()
+                            ->defaultItems(1),
+                    ]),
+                Forms\Components\Section::make('Product Specifics (Accordion)')
+                    ->schema([
+                        Forms\Components\Repeater::make('specs')
+                            ->relationship('specs')
+                            ->schema([
+                                Forms\Components\TextInput::make('spec_name')->label('Specification Title (e.g. Dimensions & Weight)')->required(),
+                                Forms\Components\Textarea::make('spec_value')->label('Specification Details')->required()->rows(3),
+                            ])
+                            ->collapsible()
+                            ->defaultItems(1),
+                    ]),
                 Forms\Components\TextInput::make('category_id')
                     ->numeric()
                     ->default(null),
