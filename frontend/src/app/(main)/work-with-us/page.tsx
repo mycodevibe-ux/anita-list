@@ -73,7 +73,7 @@ export default function WorkWithUsPage() {
                   <textarea rows={4} required className="bg-[#EBE7DF] border border-[#CEBFA7] p-3 text-xs focus:outline-none" placeholder="Tell us about your brand and product catalog..." />
                 </div>
 
-                <button type="submit" className="px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors border-none cursor-pointer">
+                <button type="submit" className="px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover border-none cursor-pointer">
                   Submit Inquiry
                 </button>
               </>

@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
-// Auto-restore safeguard for Main Admin user (Only when user doesn't exist)
+// Auto-restore safeguard for Main Admin user
 if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
-    $admin = User::where('email', 'admin@anitaslist.com')->first();
+    $admin = User::where('email', 'admin@admin.com')->first();
     if (!$admin) {
         $admin = new User();
         $admin->name = 'Main Admin';
-        $admin->email = 'admin@anitaslist.com';
+        $admin->email = 'admin@admin.com';
         $admin->password = 'admin123';
         $admin->save();
     }

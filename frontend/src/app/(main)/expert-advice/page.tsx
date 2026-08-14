@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 const articles = [
   {
@@ -36,83 +37,91 @@ export default function ExpertAdvicePage() {
       <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-[#CEBFA7]/40 pb-6">
-          <div className="flex flex-col gap-2">
-            <span className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase">
-              EXPERT ADVICE
-            </span>
-            <h1 className="font-accent text-4xl md:text-[52px] text-[#2D1A14] font-normal leading-tight">
-              Trusted guidance for <span className="font-accent italic">every step of parenthood</span>
-            </h1>
-          </div>
+        <RevealOnScroll animation="fade-up">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-[#CEBFA7]/40 pb-6">
+            <div className="flex flex-col gap-2">
+              <span className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase">
+                EXPERT ADVICE
+              </span>
+              <h1 className="font-accent text-4xl md:text-[52px] text-[#2D1A14] font-normal leading-tight">
+                Trusted guidance for <span className="font-accent italic">every step of parenthood</span>
+              </h1>
+            </div>
 
-          <Link
-            href="/expert-advice/assistant"
-            className="px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none flex-shrink-0"
-          >
-            Launch Advice Assistant 🤖
-          </Link>
-        </div>
+            <Link
+              href="/expert-advice/assistant"
+              className="px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover text-decoration-none flex-shrink-0"
+            >
+              Launch Advice Assistant 🤖
+            </Link>
+          </div>
+        </RevealOnScroll>
 
         {/* Hero Advice Block */}
-        <div className="bg-[#EBE7DF] border border-[#CEBFA7] p-8 md:p-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div className="flex flex-col gap-4">
-            <span className="font-sans text-xs font-bold tracking-widest text-[#8B9A6B] uppercase">
-              FEATURED GUIDE
-            </span>
-            <h2 className="font-accent text-3xl md:text-4xl text-[#2D1A14] font-normal leading-snug">
-              1-on-1 Private Nursery & Registry Consultations with Anita
-            </h2>
-            <p className="font-sans text-sm text-[#2D1A14]/80 leading-relaxed">
-              Book a bespoke virtual or in-person consultation with maternity nurse Anita to build your personalized baby registry, review nursery safety, and prepare your home for your baby's arrival.
-            </p>
-            <div className="pt-2">
-              <Link
-                href="/contact"
-                className="inline-block px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none"
-              >
-                Book Private Consultation
-              </Link>
+        <RevealOnScroll animation="zoom-in">
+          <div className="bg-[#EBE7DF] border border-[#CEBFA7] p-8 md:p-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="flex flex-col gap-4">
+              <span className="font-sans text-xs font-bold tracking-widest text-[#8B9A6B] uppercase">
+                FEATURED GUIDE
+              </span>
+              <h2 className="font-accent text-3xl md:text-4xl text-[#2D1A14] font-normal leading-snug">
+                1-on-1 Private Nursery & Registry Consultations with Anita
+              </h2>
+              <p className="font-sans text-sm text-[#2D1A14]/80 leading-relaxed">
+                Book a bespoke virtual or in-person consultation with maternity nurse Anita to build your personalized baby registry, review nursery safety, and prepare your home for your baby's arrival.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/contact"
+                  className="inline-block px-6 py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none btn-slide-hover text-decoration-none"
+                >
+                  Book Private Consultation
+                </Link>
+              </div>
+            </div>
+
+            <div className="w-full h-64 md:h-80 bg-[#D4C8B5] overflow-hidden relative">
+              <img
+                src="/images/anita.png"
+                alt="Anita Expert Advice"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
           </div>
-
-          <div className="w-full h-64 md:h-80 bg-[#D4C8B5] overflow-hidden relative">
-            <img
-              src="/images/anita.png"
-              alt="Anita Expert Advice"
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-        </div>
+        </RevealOnScroll>
 
         {/* Articles Cards Grid */}
         <div className="flex flex-col gap-6">
-          <h2 className="font-accent text-2xl md:text-3xl text-[#2D1A14] font-normal">
-            Articles & Advice Guides
-          </h2>
+          <RevealOnScroll animation="fade-up">
+            <h2 className="font-accent text-2xl md:text-3xl text-[#2D1A14] font-normal">
+              Articles & Advice Guides
+            </h2>
+          </RevealOnScroll>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {articles.map((art) => (
-              <div key={art.id} className="bg-[#EBE7DF] border border-[#CEBFA7] p-5 flex flex-col justify-between gap-4">
-                <div className="flex flex-col gap-3">
-                  <div className="w-full h-48 bg-[#D4C8B5] overflow-hidden">
-                    <img src={art.image} alt={art.title} className="w-full h-full object-cover" />
+            {articles.map((art, idx) => (
+              <RevealOnScroll key={art.id} animation="fade-up" delay={idx * 150}>
+                <div className="bg-[#EBE7DF] border border-[#CEBFA7] p-5 flex flex-col justify-between gap-4 h-full">
+                  <div className="flex flex-col gap-3">
+                    <div className="w-full h-48 bg-[#D4C8B5] overflow-hidden">
+                      <img src={art.image} alt={art.title} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="font-sans text-[11px] font-bold text-[#8B9A6B] uppercase">
+                      {art.category} • {art.readTime}
+                    </span>
+                    <h3 className="font-accent text-lg text-[#2D1A14] font-normal leading-snug">
+                      {art.title}
+                    </h3>
+                    <p className="font-sans text-xs text-[#2D1A14]/75 leading-relaxed">
+                      {art.snippet}
+                    </p>
                   </div>
-                  <span className="font-sans text-[11px] font-bold text-[#8B9A6B] uppercase">
-                    {art.category} • {art.readTime}
-                  </span>
-                  <h3 className="font-accent text-lg text-[#2D1A14] font-normal leading-snug">
-                    {art.title}
-                  </h3>
-                  <p className="font-sans text-xs text-[#2D1A14]/75 leading-relaxed">
-                    {art.snippet}
-                  </p>
-                </div>
 
-                <Link href="#" onClick={(e) => e.preventDefault()} className="font-sans text-xs font-bold text-[#C77065] hover:underline">
-                  Read full guide →
-                </Link>
-              </div>
+                  <Link href="#" onClick={(e) => e.preventDefault()} className="font-sans text-xs font-bold text-[#C77065] hover:underline">
+                    Read full guide →
+                  </Link>
+                </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>

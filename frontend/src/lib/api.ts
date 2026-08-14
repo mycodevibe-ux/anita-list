@@ -2,12 +2,21 @@ import axios from 'axios';
 
 export const getApiBaseUrl = () => {
   let envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1')) {
+  
+  const isProd = process.env.NODE_ENV === 'production';
+  
+  if (!envUrl) {
+    envUrl = isProd 
+      ? 'https://anita-list-backend-production.up.railway.app/api'
+      : 'http://localhost:8000/api';
+  } else if (isProd && (envUrl.includes('localhost') || envUrl.includes('127.0.0.1'))) {
     envUrl = 'https://anita-list-backend-production.up.railway.app/api';
   }
-  if (envUrl.startsWith('http://')) {
+
+  if (envUrl.startsWith('http://') && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
     envUrl = envUrl.replace('http://', 'https://');
   }
+  
   return envUrl.replace(/\/api\/?$/, '');
 };
 

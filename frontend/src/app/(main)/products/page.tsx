@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchInput, SearchSuggestion } from "@/components/ui/SearchInput";
 import { CategoryCard } from "@/components/cards/CategoryCard";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import api from "@/lib/api";
 
 const mockSuggestions: SearchSuggestion[] = [
@@ -77,36 +78,41 @@ function ProductsContent() {
     <div className="w-full bg-[#EBE7DF] py-12 px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
         {/* Page Title Section */}
-        <div className="flex flex-col gap-1">
-          <span className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase">
-            PRODUCTS
-          </span>
-          <h1 className="font-accent text-3xl md:text-[40px] text-[#2D1A14] font-normal leading-tight">
-            Browse <span className="font-accent italic">all products</span>
-          </h1>
-        </div>
+        <RevealOnScroll animation="fade-up">
+          <div className="flex flex-col gap-1">
+            <span className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase">
+              PRODUCTS
+            </span>
+            <h1 className="font-accent text-3xl md:text-[40px] text-[#2D1A14] font-normal leading-tight">
+              Browse <span className="font-accent italic">all products</span>
+            </h1>
+          </div>
+        </RevealOnScroll>
 
         {/* Autocomplete Search input */}
-        <div className="w-full">
-          <SearchInput
-            value={searchVal}
-            onChange={setSearchVal}
-            suggestions={mockSuggestions}
-            placeholder="Pushchairs with cover"
-            onSuggestionSelect={(s) => setSearchVal(s.title)}
-          />
-        </div>
+        <RevealOnScroll animation="fade-up" delay={150}>
+          <div className="w-full">
+            <SearchInput
+              value={searchVal}
+              onChange={setSearchVal}
+              suggestions={mockSuggestions}
+              placeholder="Pushchairs with cover"
+              onSuggestionSelect={(s) => setSearchVal(s.title)}
+            />
+          </div>
+        </RevealOnScroll>
 
         {/* 4-column Categories Grid matching Figma Screenshot */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredCategories.length > 0 ? (
-            filteredCategories.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                name={cat.name}
-                imageUrl={cat.image_url || '/images/baby-clothing.png'}
-                href={`/products/${cat.slug}`}
-              />
+            filteredCategories.map((cat, idx) => (
+              <RevealOnScroll key={cat.id} animation="fade-up" delay={(idx % 4) * 100}>
+                <CategoryCard
+                  name={cat.name}
+                  imageUrl={cat.image_url || '/images/baby-clothing.png'}
+                  href={`/products/${cat.slug}`}
+                />
+              </RevealOnScroll>
             ))
           ) : (
             <div className="col-span-full text-center py-16 text-[#2D1A14]/70 font-sans text-base">

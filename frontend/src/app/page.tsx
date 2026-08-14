@@ -1,6 +1,3 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 import React from "react";
 import { Header } from "@/components/layout/Header";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
@@ -12,7 +9,34 @@ import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/ui/ChatWidget";
 import styles from "./page.module.css";
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+async function getHomepageData() {
+  try {
+    let envUrl = process.env.NEXT_PUBLIC_API_URL;
+    const isProd = process.env.NODE_ENV === 'production';
+    if (!envUrl) {
+      envUrl = isProd 
+        ? 'https://anita-list-backend-production.up.railway.app/api'
+        : 'http://localhost:8000/api';
+    }
+    const apiBase = envUrl.replace(/\/api\/?$/, '');
+    const res = await fetch(`${apiBase}/api/homepage?t=${Date.now()}`, {
+      cache: 'no-store',
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    console.error("SSR fetch homepage settings failed:", e);
+  }
+  return null;
+}
+
+export default async function Home() {
+  const homepageData = await getHomepageData();
+
   return (
     <div className={styles.siteWrapper}>
       <div className={styles.container}>
@@ -22,7 +46,7 @@ export default function Home() {
         {/* Main Content Area */}
         <main>
           {/* Hero Carousel Slide Section */}
-          <HeroCarousel />
+          <HeroCarousel initialSettings={homepageData} />
 
           {/* How It Works Section */}
           <HowItWorks />
@@ -40,7 +64,7 @@ export default function Home() {
         {/* Global Footer with Newsletter subscriptions */}
         <Footer />
 
-        {/* Floating Chat speech bubble widget */}
+        {/* Floating Circle Chat Widget */}
         <ChatWidget />
       </div>
     </div>

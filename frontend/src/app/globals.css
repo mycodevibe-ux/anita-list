@@ -29,6 +29,10 @@
 
 /* Base style overrides */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   html, body {
     background-color: #EBE7DF;
     color: #2D1A14;
@@ -36,10 +40,106 @@
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   /* Typography shortcuts */
   h1, h2, h3, h4, h5, h6 {
     color: #2D1A14;
+    letter-spacing: -0.01em;
   }
+
+  /* Custom Smooth Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #EBE7DF;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #CEBFA7;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C77065;
+  }
+}
+
+/* Custom Animation & Transition Utility Classes */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(45, 26, 20, 0.08);
+}
+
+.img-zoom {
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.group:hover .img-zoom {
+  transform: scale(1.06);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Premium Background Slide Hover Effects for Buttons */
+.btn-slide-hover {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-slide-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2D1A14;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-slide-hover:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-slide-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(45, 26, 20, 0.18);
+}
+
+.btn-slide-hover:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Variant: Slide Coral color on hover */
+.btn-slide-coral::before {
+  background-color: #C77065;
 }

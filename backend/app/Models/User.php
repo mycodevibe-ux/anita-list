@@ -70,6 +70,6 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return in_array(strtolower($this->email), ['admin@anitaslist.com', 'admin@example.com']) || str_contains(strtolower($this->email), 'admin');
+        return in_array(strtolower($this->email), ['admin@admin.com', 'admin@anitaslist.com', 'admin@example.com']) || str_contains(strtolower($this->email), 'admin');
     }
 }

@@ -110,19 +110,19 @@ export default function AdminDashboard() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (
-      (loginEmail === "admin@anitaslist.com" && loginPassword === "admin123") ||
+      (loginEmail === "admin@admin.com" && loginPassword === "admin123") ||
       loginEmail === "admin"
     ) {
       setIsAuthenticated(true);
       localStorage.setItem("anita_admin_authenticated", "true");
       setLoginError("");
     } else {
-      setLoginError("Invalid credentials! Use email: admin@anitaslist.com and password: admin123");
+      setLoginError("Invalid credentials! Use email: admin@admin.com and password: admin123");
     }
   };
 
   const handleQuickAdminLogin = () => {
-    setLoginEmail("admin@anitaslist.com");
+    setLoginEmail("admin@admin.com");
     setLoginPassword("admin123");
     setIsAuthenticated(true);
     localStorage.setItem("anita_admin_authenticated", "true");
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
                 type="email"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="admin@anitaslist.com"
+                placeholder="admin@admin.com"
                 required
                 className="w-full px-3 py-2 bg-white border border-[#CEBFA7] text-sm text-[#2D1A14] focus:outline-none focus:border-[#C77065]"
               />

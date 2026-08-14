@@ -15,13 +15,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center font-sans font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+          "inline-flex items-center justify-center font-sans font-medium btn-slide-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] cursor-pointer",
           // Variants
           {
-            "bg-coral text-white hover:bg-coral/90 focus-visible:outline-coral": variant === "coral",
-            "bg-olive text-white hover:bg-olive/90 focus-visible:outline-olive": variant === "olive",
-            "border border-gray-light bg-transparent hover:bg-gray-light/10 text-text-dark focus-visible:outline-gray-medium": variant === "outline",
-            "bg-transparent text-text-dark hover:underline underline-offset-4 p-0": variant === "text",
+            "bg-coral text-white focus-visible:outline-coral": variant === "coral",
+            "bg-olive text-white focus-visible:outline-olive": variant === "olive",
+            "border border-gray-light bg-transparent btn-slide-coral hover:text-white text-text-dark focus-visible:outline-gray-medium": variant === "outline",
+            "bg-transparent text-text-dark hover:text-coral hover:underline underline-offset-4 p-0 !btn-slide-hover-none": variant === "text",
           },
           // Sizes
           {

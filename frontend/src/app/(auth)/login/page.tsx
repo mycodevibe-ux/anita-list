@@ -87,16 +87,16 @@ export default function Login() {
       login(response.data.access_token, response.data.user);
       router.push("/hub");
     } catch (error: any) {
-      console.error(error);
-      // Fallback demo login if API is unreachable
-      login("demo_token", {
-        id: 1,
-        name: "Main Admin",
-        email: formData.email,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
-      router.push("/hub");
+      console.error("Login failed:", error);
+      let errMsg = "Invalid email or password. Please check your credentials or create an account first.";
+      if (error.response?.data?.errors?.email) {
+        errMsg = Array.isArray(error.response.data.errors.email) 
+          ? error.response.data.errors.email[0] 
+          : error.response.data.errors.email;
+      } else if (error.response?.data?.message) {
+        errMsg = error.response.data.message;
+      }
+      setErrors({ email: errMsg });
     } finally {
       setIsLoading(false);
     }
@@ -127,44 +127,13 @@ export default function Login() {
           </h2>
         </div>
 
-        {/* 1-Click Master Admin vs Regular User Login Selector */}
-        <div className="p-3.5 bg-[#EBE7DF] border border-[#CEBFA7] flex flex-col gap-2.5">
-          <span className="font-sans text-[11px] font-bold text-[#2D1A14] uppercase tracking-wider text-center">
-            ⚡ 1-Click Quick Login & Admin Access
-          </span>
-          <div className="grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onClick={() => handleQuickLogin("admin@anitaslist.com", "Main Admin (Master)")}
-              className="py-2.5 px-3 bg-[#2D1A14] text-white font-sans text-xs font-bold hover:bg-[#C77065] transition-colors border-none cursor-pointer text-center"
-            >
-              🔑 Master Admin Hub
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickLogin("test@example.com", "Anne Johnson (Regular)")}
-              className="py-2.5 px-3 bg-[#8B9A6B] text-white font-sans text-xs font-bold hover:bg-[#7a895b] transition-colors border-none cursor-pointer text-center"
-            >
-              👤 Regular User
-            </button>
-          </div>
-          <a
-            href={process.env.NEXT_PUBLIC_ADMIN_URL || "https://anita-list-backend-production.up.railway.app/admin"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 px-3 bg-[#C77065] text-white font-sans text-xs font-bold hover:bg-[#b05d52] transition-colors text-center text-decoration-none block"
-          >
-            🛠️ Open Filament Admin CMS Panel
-          </a>
-        </div>
-
         {/* Standard Login form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <TextInput
             name="email"
             type="email"
             label="Email"
-            placeholder="admin@anitaslist.com or test@example.com"
+            placeholder="your.email@example.com"
             value={formData.email}
             onChange={handleChange}
             error={errors.email}

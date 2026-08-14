@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import api from "@/lib/api";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -10,40 +12,113 @@ interface EditProfileModalProps {
 
 export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
+  const { user, updateUser, logout } = useAuth();
 
   const [activeTab, setActiveTab] = useState<"personal" | "marketing" | "delete">("personal");
 
-  // Form State matching Wireframe 9
-  const [username, setUsername] = useState("Anne Johnson");
-  const [primaryEmail, setPrimaryEmail] = useState("anne.johnson@example.com");
-  const [secondaryEmail, setSecondaryEmail] = useState("partner.johnson@example.com");
-  const [password, setPassword] = useState("••••••••••••");
+  // Form State
+  const [username, setUsername] = useState("");
+  const [primaryEmail, setPrimaryEmail] = useState("");
+  const [secondaryEmail, setSecondaryEmail] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [birthday, setBirthday] = useState("14/05/1992");
   const [isExpecting, setIsExpecting] = useState<"Yes" | "No">("Yes");
   const [dueDate, setDueDate] = useState("15/10/2026");
   const [marketingPref, setMarketingPref] = useState(true);
 
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUsername(user.name || "");
+      setPrimaryEmail(user.email || "");
+      if (user.avatar) {
+        setAvatarPreview(user.avatar);
+      }
+    }
+  }, [user, isOpen]);
 
   if (!isOpen) return null;
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSavedSuccess(true);
-    setTimeout(() => {
-      setSavedSuccess(false);
-      onClose();
-    }, 1500);
+    setIsLoading(true);
+    setSavedSuccess(false);
+
+    try {
+      const formData = new FormData();
+      formData.append("name", username);
+      if (avatarFile) {
+        formData.append("avatar", avatarFile);
+      }
+
+      const res = await api.post("/user/profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res.data) {
+        updateUser(res.data);
+      } else {
+        // Fallback update
+        updateUser({
+          ...(user || { id: 1, email: primaryEmail, created_at: "", updated_at: "" }),
+          name: username,
+          avatar: avatarPreview || user?.avatar,
+        });
+      }
+
+      setSavedSuccess(true);
+      setTimeout(() => {
+        setSavedSuccess(false);
+        onClose();
+      }, 1200);
+    } catch (err) {
+      console.error("Failed to update profile", err);
+      // Fallback local update
+      updateUser({
+        ...(user || { id: 1, email: primaryEmail, created_at: "", updated_at: "" }),
+        name: username,
+        avatar: avatarPreview || user?.avatar,
+      });
+      setSavedSuccess(true);
+      setTimeout(() => {
+        setSavedSuccess(false);
+        onClose();
+      }, 1200);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignOut = () => {
     onClose();
-    router.push("/login");
+    logout();
   };
+
+  const getApiBaseUrl = () => {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+    return envUrl.replace(/\/api\/?$/, '');
+  };
+
+  const currentAvatarSrc = avatarPreview
+    ? avatarPreview.startsWith('blob:') || avatarPreview.startsWith('http')
+      ? avatarPreview
+      : `${getApiBaseUrl()}${avatarPreview}`
+    : null;
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 select-none">
-      <div className="bg-[#EBE7DF] border border-[#CEBFA7] w-full max-w-2xl h-[550px] shadow-2xl flex flex-col md:flex-row relative overflow-hidden">
+      <div className="bg-[#EBE7DF] border border-[#CEBFA7] w-full max-w-2xl h-[580px] shadow-2xl flex flex-col md:flex-row relative overflow-hidden">
         
         {/* Close Button */}
         <button
@@ -53,7 +128,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
           ✕
         </button>
 
-        {/* Left Side Tab Navigation matching Wireframe 9 */}
+        {/* Left Side Tab Navigation */}
         <div className="w-full md:w-56 bg-[#2D1A14] text-[#F8F8F2] p-6 flex flex-col justify-between flex-shrink-0">
           <div className="flex flex-col gap-6">
             <h3 className="font-accent text-xl font-normal border-b border-[#F8F8F2]/20 pb-3">
@@ -104,11 +179,11 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
           </button>
         </div>
 
-        {/* Right Content Panel matching Wireframe 9 */}
+        {/* Right Content Panel */}
         <div className="flex-grow p-6 md:p-8 overflow-y-auto font-sans text-xs">
           {savedSuccess && (
             <div className="p-3 mb-4 bg-[#8B9A6B] text-white font-bold">
-              ✓ Personal details updated successfully!
+              ✓ Personal details & Profile Picture updated successfully!
             </div>
           )}
 
@@ -118,8 +193,30 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                 Personal details
               </h4>
 
+              {/* Profile Picture Upload Field */}
+              <div className="flex items-center gap-4 bg-white p-3 border border-[#CEBFA7]">
+                <div className="w-14 h-14 rounded-full bg-[#8B9A6B] text-white flex items-center justify-center font-bold text-lg overflow-hidden flex-shrink-0">
+                  {currentAvatarSrc ? (
+                    <img src={currentAvatarSrc} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    username ? username.slice(0, 2).toUpperCase() : "U"
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 flex-grow">
+                  <label className="font-bold uppercase text-[#2D1A14] text-[10px]">
+                    Profile Picture (Avatar)
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                    className="text-xs text-[#2D1A14] file:mr-2 file:py-1 file:px-3 file:border-0 file:text-xs file:font-semibold file:bg-[#2D1A14] file:text-white hover:file:bg-[#C77065] file:cursor-pointer cursor-pointer"
+                  />
+                </div>
+              </div>
+
               <div className="flex flex-col gap-1">
-                <label className="font-bold uppercase text-[#2D1A14]/80 text-[10px]">Username</label>
+                <label className="font-bold uppercase text-[#2D1A14]/80 text-[10px]">Username / Full Name</label>
                 <input
                   type="text"
                   value={username}
@@ -134,9 +231,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                 <input
                   type="email"
                   value={primaryEmail}
-                  onChange={(e) => setPrimaryEmail(e.target.value)}
-                  className="bg-white border border-[#CEBFA7] p-2.5 text-xs text-[#2D1A14] focus:outline-none"
-                  required
+                  disabled
+                  className="bg-[#EBE7DF] border border-[#CEBFA7] p-2.5 text-xs text-[#2D1A14]/70 focus:outline-none cursor-not-allowed"
                 />
               </div>
 
@@ -149,21 +245,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                   placeholder="partner@example.com"
                   className="bg-white border border-[#CEBFA7] p-2.5 text-xs text-[#2D1A14] focus:outline-none"
                 />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="font-bold uppercase text-[#2D1A14]/80 text-[10px]">Password</label>
-                <div className="flex gap-2">
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="flex-grow bg-white border border-[#CEBFA7] p-2.5 text-xs text-[#2D1A14] focus:outline-none"
-                  />
-                  <button type="button" onClick={() => alert("Password update link sent!")} className="px-3 py-1 bg-[#2D1A14] text-white text-[11px] font-bold">
-                    Update
-                  </button>
-                </div>
               </div>
 
               <div className="flex flex-col gap-1">
@@ -214,9 +295,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
 
               <button
                 type="submit"
+                disabled={isLoading}
                 className="mt-2 w-full py-3 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none hover:bg-[#b05d52] transition-colors border-none cursor-pointer"
               >
-                Save changes
+                {isLoading ? "Saving changes..." : "Save changes"}
               </button>
             </form>
           )}

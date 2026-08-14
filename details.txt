@@ -1,5 +1,5 @@
 http://localhost:8000/admin
-Email: admin@anitaslist.com
+Email: admin@admin.com
 Password: admin123
 
 

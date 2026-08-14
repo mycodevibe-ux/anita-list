@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 import { UserProfileBanner } from "@/components/hub/UserProfileBanner";
 import { DashboardPanel } from "@/components/hub/DashboardPanel";
 import { ListItemRow } from "@/components/hub/ListItemRow";
@@ -39,13 +40,18 @@ export default function HubDashboard() {
     { id: "n4", title: "Questions for Anita consultation" },
   ]);
 
-  // Modal States matching Wireframe Screenshot Steps 5, 6, 7
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const [newDateTitle, setNewDateTitle] = useState("");
   const [newDateVal, setNewDateVal] = useState("");
 
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState("");
+
+  const [viewDetailModal, setViewDetailModal] = useState<{
+    type: "date" | "note";
+    title: string;
+    detail: string;
+  } | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("anita_user_lists");
@@ -123,14 +129,21 @@ export default function HubDashboard() {
     setNotes((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const { user } = useAuth();
+  const userName = user?.name || "Anne Johnson";
+  const avatarInitials = user?.name 
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "AJ";
+  const avatarUrl = user?.avatar;
+
   return (
-    <div className="w-full bg-[#EBE7DF] py-10 px-6 md:px-12 lg:px-16">
-      <div className="max-w-[1440px] mx-auto flex flex-col gap-8 relative">
+    <div className="w-full bg-[#EBE7DF] py-10 px-6 md:px-12 lg:px-16 select-none min-h-screen">
+      <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
         
         {/* Top Profile Welcome Banner */}
-        <UserProfileBanner userName="Anne Johnson" avatarText="AJ" />
+        <UserProfileBanner userName={userName} avatarText={avatarInitials} avatarUrl={avatarUrl} />
 
-        {/* 2x2 Dashboard Panels Grid matching Figma Screenshot */}
+        {/* 2x2 Dashboard Panels Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 border border-[#CEBFA7] bg-[#EBE7DF] p-6 md:p-8 relative">
           
           {/* Panel 1: My Lists */}
@@ -199,7 +212,11 @@ export default function HubDashboard() {
                 title={dt.title}
                 subtitle={dt.date}
                 buttonLabel="View details"
-                onButtonClick={() => alert(`Details for ${dt.title}: ${dt.date}`)}
+                onButtonClick={() => setViewDetailModal({
+                  type: "date",
+                  title: dt.title,
+                  detail: `Target Date: ${dt.date}`,
+                })}
                 onDeleteClick={() => handleDeleteDate(dt.id)}
               />
             ))}
@@ -218,7 +235,11 @@ export default function HubDashboard() {
                 key={note.id}
                 title={note.title}
                 buttonLabel="View note"
-                onButtonClick={() => alert(`Note detail: ${note.title}`)}
+                onButtonClick={() => setViewDetailModal({
+                  type: "note",
+                  title: note.title,
+                  detail: "Personal research and reminder note saved in your Anita's List dashboard.",
+                })}
                 onDeleteClick={() => handleDeleteNote(note.id)}
               />
             ))}
@@ -228,7 +249,7 @@ export default function HubDashboard() {
 
       </div>
 
-      {/* POP-UP MODAL: Add New Key Date (matching Wireframe Screenshot Step 5 & 6) */}
+      {/* POP-UP MODAL: Add New Key Date */}
       {isDateModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#EBE7DF] border border-[#CEBFA7] w-full max-w-md p-6 flex flex-col gap-5 shadow-2xl relative select-none">
@@ -290,7 +311,7 @@ export default function HubDashboard() {
         </div>
       )}
 
-      {/* POP-UP MODAL: Add New Note (matching Wireframe Screenshot Step 7) */}
+      {/* POP-UP MODAL: Add New Note */}
       {isNoteModalOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#EBE7DF] border border-[#CEBFA7] w-full max-w-md p-6 flex flex-col gap-5 shadow-2xl relative select-none">
@@ -335,6 +356,53 @@ export default function HubDashboard() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* POP-UP MODAL: View Item Details */}
+      {viewDetailModal && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-[#EBE7DF] border border-[#CEBFA7] w-full max-w-md p-6 flex flex-col gap-5 shadow-2xl relative select-none">
+            <div className="flex justify-between items-center border-b border-[#CEBFA7]/40 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{viewDetailModal.type === "date" ? "📅" : "📝"}</span>
+                <span className="font-sans text-xs font-bold tracking-widest text-[#8B9A6B] uppercase">
+                  {viewDetailModal.type === "date" ? "KEY DATE DETAIL" : "NOTE DETAIL"}
+                </span>
+              </div>
+              <button
+                onClick={() => setViewDetailModal(null)}
+                className="text-[#2D1A14] font-bold text-lg border-none bg-transparent cursor-pointer hover:text-[#C77065]"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <h3 className="font-accent text-2xl font-normal text-[#2D1A14]">
+                {viewDetailModal.title}
+              </h3>
+              
+              <div className="bg-white border border-[#CEBFA7] p-4 flex flex-col gap-1 shadow-sm">
+                <span className="font-sans text-[10px] font-bold text-[#8B9A6B] uppercase">
+                  {viewDetailModal.type === "date" ? "TARGET DATE" : "NOTE CONTENT"}
+                </span>
+                <p className="font-sans text-sm text-[#2D1A14] leading-relaxed">
+                  {viewDetailModal.detail}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setViewDetailModal(null)}
+                className="px-6 py-2.5 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none hover:bg-[#b05d52] transition-colors border-none cursor-pointer"
+              >
+                Close Details
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -32,7 +32,7 @@ export const UserProfileBanner: React.FC<UserProfileBannerProps> = ({
           <div className="w-20 h-20 rounded-full bg-[#8B9A6B] text-white flex items-center justify-center font-sans text-2xl font-bold overflow-hidden shadow-sm flex-shrink-0">
             {avatarUrl ? (
               <img
-                src={avatarUrl.startsWith('http') ? avatarUrl : `${(process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api').replace(/\/api\/?$/, '')}${avatarUrl}`}
+                src={avatarUrl.startsWith('http') || avatarUrl.startsWith('blob:') ? avatarUrl : `${(process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api').replace(/\/api\/?$/, '')}${avatarUrl}`}
                 alt="Avatar"
                 className="w-full h-full object-cover"
                 onError={(e) => {

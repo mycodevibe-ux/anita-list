@@ -85,7 +85,7 @@ export default function AdviceAssistantPage() {
 
             <button
               type="submit"
-              className="px-8 py-3.5 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors border-none cursor-pointer mt-2"
+              className="px-8 py-3.5 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover border-none cursor-pointer mt-2"
             >
               Get Anita's Tailored Advice
             </button>
@@ -103,7 +103,7 @@ export default function AdviceAssistantPage() {
                 </p>
                 <Link
                   href="/products/transport/pushchairs"
-                  className="inline-block px-6 py-2.5 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none self-start"
+                  className="inline-block px-6 py-2.5 bg-[#C77065] text-[#F8F8F2] font-accent text-xs font-medium rounded-none btn-slide-hover text-decoration-none self-start"
                 >
                   Explore Recommended Pushchairs
                 </Link>

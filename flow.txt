@@ -1,0 +1,344 @@
+PUBLIC SHOPPING FLOW
+
+Homepage
+   │
+   ├── Browse & Buy
+   │      ↓
+   │   Category
+   │      ↓
+   │   Product Detail
+   │      ↓
+   │   Buy Now
+   │      ↓
+   │   External Retailer
+   │
+   ├── Create List
+   │      ↓
+   │   Login 🔒
+   │      ↓
+   │   List Dashboard
+   │      ↓
+   │   Add Products
+   │
+   └── Find Registry
+          ↓
+       Login 🔒
+          ↓
+       Access Code
+          ↓
+       Shared Registry
+          ↓
+       Buy
+
+
+
+| #     | Page           | Route                          | Type      | Purpose                                                 |
+| ----- | -------------- | ------------------------------ | --------- | ------------------------------------------------------- |
+| 1     | Homepage       | `/`                            | Public    | Hero + 3 CTAs + features + testimonials + consultations |
+| 2     | Browse & Buy   | `/collections/introduction`    | Public    | All product categories                                  |
+| 3     | Category       | `/collections/[name]`          | Public    | Products + price comparison                             |
+| 4     | Product Detail | `/products/[slug]`             | Public    | Product details + retailers                             |
+| 5     | Advice Hub     | `/pages/advice-hub`            | Public    | Expert advice                                           |
+| 6     | FAQs           | `/pages/faqs`                  | Public    | FAQ accordion + contact                                 |
+| 7     | Podcast        | `/pages/podcast`               | Public    | Podcast episodes + external links                       |
+| 8     | Consultations  | `/pages/private-consultations` | Public    | Consultation packages + testimonials                    |
+| 9     | Work With Us   | `/pages/work-with-us`          | Public    | Careers                                                 |
+| 10    | Login          | `/account/login`               | Auth      | Login                                                   |
+| 11    | Create List    | `/pages/create-list`           | Protected | User's list dashboard                                   |
+| 12    | Find Registry  | `/pages/invited-registries`    | Protected | Access shared registry                                  |
+| 13–22 | Policies       | `/pages/...`                   | Public    | Legal/policy content                                    |
+
+
+
+
+3. Next.js folder structure
+
+तुझ्या project मध्ये मी असा structure recommend करेन:
+
+frontend/
+│
+├── app/
+│   │
+│   ├── page.tsx
+│   │
+│   ├── collections/
+│   │   ├── introduction/
+│   │   │   └── page.tsx
+│   │   └── [name]/
+│   │       └── page.tsx
+│   │
+│   ├── products/
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   │
+│   ├── pages/
+│   │   ├── advice-hub/
+│   │   │   └── page.tsx
+│   │   ├── faqs/
+│   │   │   └── page.tsx
+│   │   ├── podcast/
+│   │   │   └── page.tsx
+│   │   ├── private-consultations/
+│   │   │   └── page.tsx
+│   │   ├── work-with-us/
+│   │   │   └── page.tsx
+│   │   ├── create-list/
+│   │   │   └── page.tsx
+│   │   └── invited-registries/
+│   │       └── page.tsx
+│   │
+│   ├── account/
+│   │   └── login/
+│   │       └── page.tsx
+│   │
+│   └── policies/
+│       ├── shipping/
+│       ├── refunds/
+│       ├── terms/
+│       ├── privacy/
+│       ├── cookies/
+│       └── product-reviews/
+│
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   └── Navigation.tsx
+│   │
+│   ├── home/
+│   ├── collections/
+│   ├── products/
+│   ├── registry/
+│   ├── lists/
+│   ├── auth/
+│   ├── advice/
+│   ├── faq/
+│   ├── podcast/
+│   └── common/
+│
+├── lib/
+│   ├── api.ts
+│   ├── auth.ts
+│   └── utils.ts
+│
+├── types/
+│
+└── public/
+    └── images/
+4. Laravel Backend structure
+
+Backend मध्ये सगळे pages बनवायचे नाहीत. Laravel हा API/backend राहील.
+
+backend/
+│
+├── app/
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Product.php
+│   │   ├── Category.php
+│   │   ├── Retailer.php
+│   │   ├── Registry.php
+│   │   ├── RegistryItem.php
+│   │   ├── UserList.php
+│   │   ├── ListItem.php
+│   │   ├── Advice.php
+│   │   ├── Podcast.php
+│   │   └── Consultation.php
+│   │
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   ├── Requests/
+│   │   └── Resources/
+│   │
+│   └── Services/
+│
+├── routes/
+│   └── api.php
+│
+└── database/
+    └── migrations/
+5. काय Laravel मध्ये जाईल?
+
+हे dynamic data Laravel/MySQL मध्ये ठेवणे योग्य:
+
+Products
+Categories
+Prices
+Retailers
+Users
+User Lists
+Registry
+Registry Items
+Advice Articles
+FAQ
+Podcast Episodes
+Consultations
+Testimonials
+
+उदाहरण:
+
+Product
+   │
+   ├── name
+   ├── slug
+   ├── description
+   ├── images
+   ├── video
+   ├── category
+   │
+   └── Retailers
+          ├── retailer
+          ├── price
+          └── external_url
+
+मग Product page:
+
+Next.js
+   ↓
+GET /api/products/{slug}
+   ↓
+Laravel
+   ↓
+MySQL
+
+आणि Buy Now:
+
+Next.js
+   ↓
+Retailer external_url
+   ↓
+External Retailer
+
+म्हणजे payment/checkout तुझ्या website वर करण्याची गरज नाही, जोपर्यंत design/business requirement तशी नाही.
+
+6. सर्वात महत्त्वाचा भाग — Create List
+
+हा protected flow आहे:
+
+Create List
+     ↓
+Is user logged in?
+     │
+   NO ─────→ Login
+                ↓
+             Success
+                ↓
+         List Dashboard
+                ↓
+          Add Products
+
+Laravel:
+
+POST /api/login
+GET  /api/user
+GET  /api/lists
+POST /api/lists
+POST /api/lists/{id}/items
+DELETE /api/lists/{id}/items/{item}
+7. Find Registry
+
+हा वेगळा protected flow ठेव:
+
+Find Registry
+      ↓
+Login
+      ↓
+Access Code
+      ↓
+Laravel verifies code
+      ↓
+Shared Registry
+      ↓
+Products
+      ↓
+Buy
+
+Laravel API:
+
+POST /api/registry/access
+GET  /api/registries/{code}
+
+
+
+
+
+
+
+
+
+
+
+
+***************************
+
+
+The frontend structure and page flows are now approved.
+
+Use the following final application architecture:
+
+Frontend:
+Next.js 15 + TypeScript + Tailwind CSS v4
+
+Backend:
+Laravel 12 + REST API + MySQL + Sanctum
+
+The frontend and backend must remain completely separate.
+
+USER FLOWS:
+
+1. Shopping:
+Homepage → Browse & Buy → Category → Product Detail → Buy Now → External Retailer
+
+2. Create List:
+Homepage → Create List → Login (if not authenticated) → List Dashboard → Add Products
+
+3. Find Registry:
+Homepage → Find Registry → Login → Access Code → Shared Registry → Buy
+
+PUBLIC PAGES:
+- /
+- /collections/introduction
+- /collections/[name]
+- /products/[slug]
+- /pages/advice-hub
+- /pages/faqs
+- /pages/podcast
+- /pages/private-consultations
+- /pages/work-with-us
+- policy pages
+
+AUTH:
+- /account/login
+
+PROTECTED FEATURES:
+- Create List
+- List Dashboard
+- Add/Remove List Products
+- Find Registry
+- Access Code
+- Shared Registry
+
+IMPORTANT:
+Do NOT rebuild or modify the existing frontend UI.
+
+Now start ONLY the Laravel backend phase.
+
+First:
+1. Create Laravel 12 backend inside D:\MG\Anita\backend
+2. Configure MySQL
+3. Configure Laravel Sanctum
+4. Design database schema
+5. Create migrations and models
+6. Define model relationships
+7. Create API route structure
+8. Create validation/request classes
+9. Create API resources
+10. Create controllers
+11. Implement authentication APIs
+12. Implement Product/Category/Retailer APIs
+13. Implement User List APIs
+14. Implement Registry APIs
+
+Before writing the database migrations, show me the proposed database tables, columns, relationships and API endpoints for approval.
+
+Do NOT modify the Next.js frontend yet.

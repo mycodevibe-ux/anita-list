@@ -1,38 +1,94 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+
+interface ChatProduct {
+  id: string;
+  name: string;
+  price: string;
+  link: string;
+  image: string;
+}
+
+interface ChatMessage {
+  id: string;
+  sender: "user" | "bot";
+  text: string;
+  products?: ChatProduct[];
+}
 
 export const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
+      id: "init-1",
       sender: "bot",
-      text: "Hello! Welcome to Anita's AI Advice Hub. What baby essentials or pushchairs can I help you choose today?",
+      text: "Hello! Welcome to Anita's AI Advice Hub. What baby essentials, pushchairs, or nursery items can I help you choose today?",
       products: [],
     },
   ]);
   const [inputVal, setInputVal] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen]);
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputVal.trim()) return;
+    const trimmed = inputVal.trim();
+    if (!trimmed) return;
 
-    const userText = inputVal;
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      sender: "user",
+      text: trimmed,
+      products: [],
+    };
+
     setInputVal("");
 
-    setMessages((prev) => [
-      ...prev,
-      { sender: "user", text: userText, products: [] },
-      {
-        sender: "bot",
-        text: "Based on your request, Anita recommends compact, high-performance pushchairs with strong suspension for smooth city & travel use:",
-        products: [
-          { id: "1", name: "Bugaboo Fox 5 Renew", price: "£1,299.00", link: "/products/1/pushchairs/1", image: "/images/banner4.jpg" },
-          { id: "2", name: "Stokke YOYO3 Lightweight", price: "£450.00", link: "/products/1/pushchairs/1", image: "/images/baby-clothing.png" },
-        ],
-      },
-    ]);
+    // Dynamic Bot Reply
+    let botReplyText = "Based on your request, Anita recommends our top-rated essentials tested for quality & safety:";
+    let botProducts: ChatProduct[] = [
+      { id: "1", name: "Bugaboo Fox 5 Renew", price: "£1,299.00", link: "/products/transport/pushchairs/1", image: "/images/banner4.jpg" },
+      { id: "2", name: "Stokke YOYO3 Lightweight", price: "£450.00", link: "/products/transport/pushchairs/2", image: "/images/baby-clothing.png" },
+    ];
+
+    if (trimmed === "1" || trimmed.toLowerCase().includes("pushchair") || trimmed.toLowerCase().includes("stroller")) {
+      botReplyText = "Here are Anita's #1 recommended all-terrain and travel pushchairs for maximum comfort:";
+      botProducts = [
+        { id: "1", name: "Bugaboo Fox 5 Renew", price: "£1,299.00", link: "/products/transport/pushchairs/1", image: "/images/banner4.jpg" },
+        { id: "2", name: "Stokke YOYO3 Lightweight", price: "£450.00", link: "/products/transport/pushchairs/2", image: "/images/baby-clothing.png" },
+      ];
+    } else if (trimmed === "2" || trimmed.toLowerCase().includes("carrier") || trimmed.toLowerCase().includes("wrap")) {
+      botReplyText = "For ergonomic babywearing, Anita recommends these 3D-mesh breathable baby carriers:";
+      botProducts = [
+        { id: "3", name: "BabyBjörn Carrier Harmony", price: "£190.00", link: "/products/transport/pushchairs/3", image: "/images/bathing.png" },
+      ];
+    } else if (trimmed.toLowerCase().includes("chair") || trimmed.toLowerCase().includes("nursery")) {
+      botReplyText = "Here are Anita's favorite nursery furniture pieces built to last:";
+      botProducts = [
+        { id: "5", name: "Stokke Tripp Trapp High Chair", price: "£239.00", link: "/products/transport/pushchairs/5", image: "/images/banner5.jpg" },
+        { id: "6", name: "BabyBjörn Bouncer Bliss Mesh", price: "£185.00", link: "/products/transport/pushchairs/6", image: "/images/hero-1.jpg" },
+      ];
+    }
+
+    const botMessage: ChatMessage = {
+      id: `bot-${Date.now() + 1}`,
+      sender: "bot",
+      text: botReplyText,
+      products: botProducts,
+    };
+
+    setMessages((prev) => [...prev, userMessage, botMessage]);
   };
 
   return (
@@ -52,7 +108,7 @@ export const ChatWidget: React.FC = () => {
         </svg>
       </button>
 
-      {/* AI Advice Chatbot Popup Window matching User Flow 1 */}
+      {/* AI Advice Chatbot Popup Window */}
       {isOpen && (
         <div className="fixed bottom-20 left-6 w-80 md:w-96 bg-[#EBE7DF] border border-[#CEBFA7] shadow-2xl z-50 flex flex-col rounded-none overflow-hidden select-none">
           {/* Header Bar */}
@@ -69,11 +125,11 @@ export const ChatWidget: React.FC = () => {
             </button>
           </div>
 
-          {/* Chat Messages Body */}
-          <div className="p-4 flex flex-col gap-4 max-h-80 overflow-y-auto font-sans text-xs">
-            {messages.map((msg, idx) => (
+          {/* Chat Messages Body with Auto-Scroll */}
+          <div className="p-4 flex flex-col gap-4 h-80 max-h-80 overflow-y-auto font-sans text-xs">
+            {messages.map((msg) => (
               <div
-                key={idx}
+                key={msg.id}
                 className={`flex flex-col gap-2 ${
                   msg.sender === "user" ? "items-end" : "items-start"
                 }`}
@@ -92,7 +148,7 @@ export const ChatWidget: React.FC = () => {
                 {msg.products && msg.products.length > 0 && (
                   <div className="flex flex-col gap-2 w-full mt-1">
                     <span className="font-sans text-[10px] font-bold text-[#8B9A6B] uppercase">
-                      RECOMMENDED PUSHCHAIRS:
+                      RECOMMENDED ESSENTIALS:
                     </span>
                     {msg.products.map((p) => (
                       <Link
@@ -112,6 +168,7 @@ export const ChatWidget: React.FC = () => {
                 )}
               </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
 
           {/* Bottom Prompt Input */}

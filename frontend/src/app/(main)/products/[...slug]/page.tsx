@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CategoryAccordion, CategoryItem } from "@/components/products/CategoryAccordion";
 import { ProductCard } from "@/components/cards/ProductCard";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 // Sidebar categories list strictly matching Figma design
 const mockSidebarCategories: CategoryItem[] = [
@@ -39,37 +40,12 @@ const mockSidebarCategories: CategoryItem[] = [
 
 // Rich Product Database populating pages and detail view
 const allProductsData = [
-  // Page 1 Items
-  { id: "1", name: "Bugaboo Fox 5 Renew", price: "£00.00", rawPrice: 1299, brand: "bugaboo", imageUrl: "/images/banner4.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id. Tellus auctor risus pharetra sem. Neque lectus rhoncus lacinia non diam velit malesuada vel." },
-  { id: "2", name: "Stokke YOYO3 Lightweight Stroller", price: "£00.00", rawPrice: 450, brand: "stokke", imageUrl: "/images/baby-clothing.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id. Tellus auctor risus pharetra sem. Neque lectus rhoncus lacinia non diam velit malesuada vel." },
-  { id: "3", name: "BabyBjörn Baby Carrier Harmony", price: "£00.00", rawPrice: 190, brand: "babybjorn", imageUrl: "/images/bathing.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id. Tellus auctor risus pharetra sem." },
-  { id: "4", name: "Bugaboo Dragonfly City Stroller", price: "£00.00", rawPrice: 895, brand: "bugaboo", imageUrl: "/images/bedding.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id. Tellus auctor risus pharetra sem." },
-  { id: "5", name: "Stokke Tripp Trapp High Chair", price: "£00.00", rawPrice: 239, brand: "stokke", imageUrl: "/images/banner5.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "6", name: "BabyBjörn Bouncer Bliss Mesh", price: "£00.00", rawPrice: 185, brand: "babybjorn", imageUrl: "/images/hero-1.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-
-  // Page 2 Items
-  { id: "7", name: "Bugaboo Fox 5 Renew (Sage Green)", price: "£00.00", rawPrice: 1299, brand: "bugaboo", imageUrl: "/images/banner4.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "8", name: "Stokke Sleepi Bed V3", price: "£00.00", rawPrice: 699, brand: "stokke", imageUrl: "/images/baby-clothing.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "9", name: "BabyBjörn Travel Cot Easy Go", price: "£00.00", rawPrice: 250, brand: "babybjorn", imageUrl: "/images/bathing.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "10", name: "Bugaboo Butterfly Compact Stroller", price: "£00.00", rawPrice: 399, brand: "bugaboo", imageUrl: "/images/bedding.png", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "11", name: "Stokke Flexi Bath Bundle", price: "£00.00", rawPrice: 65, brand: "stokke", imageUrl: "/images/banner5.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-  { id: "12", name: "BabyBjörn Smart Potty", price: "£00.00", rawPrice: 32, brand: "babybjorn", imageUrl: "/images/hero-1.jpg", description: "Lorem ipsum dolor sit amet consectetur. Imperdiet tristique fringilla id donec id." },
-
-  // Page 3 Items
-  { id: "13", name: "Bugaboo Donkey 5 Duo Twin Stroller", price: "£00.00", rawPrice: 1549, brand: "bugaboo", imageUrl: "/images/banner4.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "14", name: "Stokke Xplory X Signature Pushchair", price: "£00.00", rawPrice: 1199, brand: "stokke", imageUrl: "/images/baby-clothing.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "15", name: "BabyBjörn Carrier Mini Cotton", price: "£00.00", rawPrice: 95, brand: "babybjorn", imageUrl: "/images/bathing.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "16", name: "Bugaboo Turtle Air by Nuna Car Seat", price: "£00.00", rawPrice: 219, brand: "bugaboo", imageUrl: "/images/bedding.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "17", name: "Stokke Clikk High Chair", price: "£00.00", rawPrice: 149, brand: "stokke", imageUrl: "/images/banner5.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "18", name: "BabyBjörn Bouncer Balance Soft", price: "£00.00", rawPrice: 165, brand: "babybjorn", imageUrl: "/images/hero-1.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
-
-  // Page 4 Items
-  { id: "19", name: "Bugaboo Performance Winter Footmuff", price: "£00.00", rawPrice: 155, brand: "bugaboo", imageUrl: "/images/banner4.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "20", name: "Stokke JetKids BedBox Travel Suitcase", price: "£00.00", rawPrice: 179, brand: "stokke", imageUrl: "/images/baby-clothing.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "21", name: "BabyBjörn Soft Bib 2-Pack", price: "£00.00", rawPrice: 16, brand: "babybjorn", imageUrl: "/images/bathing.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "22", name: "Bugaboo Organiser Bag", price: "£00.00", rawPrice: 55, brand: "bugaboo", imageUrl: "/images/bedding.png", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "23", name: "Stokke Prampack Travel Bag", price: "£00.00", rawPrice: 175, brand: "stokke", imageUrl: "/images/banner5.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id: "24", name: "BabyBjörn Step Stool", price: "£00.00", rawPrice: 28, brand: "babybjorn", imageUrl: "/images/hero-1.jpg", description: "Lorem ipsum dolor sit amet consectetur." },
+  { id: "1", name: "Bugaboo Fox 5 Renew", price: "£1,299.00", rawPrice: 1299, brand: "bugaboo", imageUrl: "/images/banner4.jpg", description: "The ultimate all-terrain stroller designed for smooth rides, effortless maneuverability, and premium comfort." },
+  { id: "2", name: "Stokke YOYO3 Lightweight Stroller", price: "£450.00", rawPrice: 450, brand: "stokke", imageUrl: "/images/baby-clothing.png", description: "Ultra-compact, lightweight travel stroller designed to fit overhead cabin luggage limits." },
+  { id: "3", name: "BabyBjörn Baby Carrier Harmony", price: "£190.00", rawPrice: 190, brand: "babybjorn", imageUrl: "/images/bathing.png", description: "Ergonomic, soft 3D mesh baby carrier offering maximum comfort and close connection." },
+  { id: "4", name: "Bugaboo Dragonfly City Stroller", price: "£895.00", rawPrice: 895, brand: "bugaboo", imageUrl: "/images/bedding.png", description: "The future-proof city stroller that folds compactly with carrycot or seat attached." },
+  { id: "5", name: "Stokke Tripp Trapp High Chair", price: "£239.00", rawPrice: 239, brand: "stokke", imageUrl: "/images/banner5.jpg", description: "The iconic chair that grows with the child from newborn to adulthood." },
+  { id: "6", name: "BabyBjörn Bouncer Bliss Mesh", price: "£185.00", rawPrice: 185, brand: "babybjorn", imageUrl: "/images/hero-1.jpg", description: "Ergonomic bouncer with natural rocking powered by your baby's own movements." },
 ];
 
 export default function CategoryProducts() {
@@ -95,18 +71,28 @@ export default function CategoryProducts() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeQuoteIndex, setActiveQuoteIndex] = useState(0);
   const [addedToList, setAddedToList] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
-  // 7 Product Images for Big Main Photo and 7 Small Thumbnails
-  const galleryImages = [
-    singleProduct?.imageUrl || "/images/banner4.jpg",
-    "/images/baby-clothing.png",
-    "/images/bathing.png",
-    "/images/bedding.png",
-    "/images/banner5.jpg",
-    "/images/hero-1.jpg",
-    "/images/banner4.jpg",
+  // Expert quotes carousel list
+  const expertQuotes = [
+    "\"Choose a pushchair with sturdy suspension and an easy one-hand fold mechanism if you navigate public transport or city pavements daily.\"",
+    "\"Ensure your bassinet mattress is firm, flat, and fits snugly without any gaps around the edges for safe newborn sleep.\"",
+    "\"For frequent travel, compact pushchairs that fit into airplane overhead cabins save incredible time and stress at airport gates.\"",
+    "\"Focus on high-frequency daily essentials first—pushchair, car seat, Moses basket, and washable cotton swaddles.\""
   ];
-  const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
+
+  // Auto-slide expert quotes timer
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveQuoteIndex((prev) => (prev + 1) % expertQuotes.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [expertQuotes.length]);
+
+  // Real Product Images array for Thumbnails matching current product
+  const mainImg = singleProduct?.imageUrl || "/images/banner4.jpg";
+  const galleryImages = [mainImg];
+  const [selectedImage, setSelectedImage] = useState(mainImg);
 
   // Specifics accordion toggles
   const [openSpecific, setOpenSpecific] = useState<string | null>(null);
@@ -121,11 +107,10 @@ export default function CategoryProducts() {
   });
 
   const itemsPerPage = 6;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  let displayedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
-  if (displayedProducts.length === 0 && filteredProducts.length > 0) {
-    displayedProducts = filteredProducts.slice(0, itemsPerPage);
-  }
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+  const validPage = currentPage > totalPages ? 1 : currentPage;
+  const startIndex = (validPage - 1) * itemsPerPage;
+  const displayedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
   // ==========================================
   // SINGLE PRODUCT DETAIL PAGE (Matching Figma Frame 'Product' 100%)
@@ -251,7 +236,7 @@ export default function CategoryProducts() {
                     <a
                       href="#"
                       onClick={(e) => e.preventDefault()}
-                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none"
+                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover text-decoration-none"
                     >
                       Buy now
                     </a>
@@ -263,7 +248,7 @@ export default function CategoryProducts() {
                     <a
                       href="#"
                       onClick={(e) => e.preventDefault()}
-                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none"
+                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover text-decoration-none"
                     >
                       Buy now
                     </a>
@@ -275,7 +260,7 @@ export default function CategoryProducts() {
                     <a
                       href="#"
                       onClick={(e) => e.preventDefault()}
-                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none hover:bg-[#b05d52] transition-colors text-decoration-none"
+                      className="px-6 py-2 bg-[#C77065] text-[#F8F8F2] font-accent text-sm font-medium rounded-none btn-slide-hover text-decoration-none"
                     >
                       Buy now
                     </a>
@@ -395,65 +380,102 @@ export default function CategoryProducts() {
       <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
         
         {/* Top Banner Row: Title + Expert Video Quote Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center border-b border-[#CEBFA7]/40 pb-8">
-          {/* Left Title & Breadcrumbs */}
-          <div className="lg:col-span-2 flex flex-col gap-2">
-            <div className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase flex items-center gap-2 select-none">
-              <Link href="/products" className="hover:text-[#C77065] transition-colors">
-                PRODUCTS
-              </Link>
-              <span>|</span>
-              <Link href="/products/transport" className="hover:text-[#C77065] transition-colors">
-                {displayCategory}
-              </Link>
-              <span>|</span>
-              <span className="text-[#2D1A14]">{displaySubcategory}</span>
+        <RevealOnScroll animation="fade-up">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center border-b border-[#CEBFA7]/40 pb-8">
+            {/* Left Title & Breadcrumbs */}
+            <div className="lg:col-span-2 flex flex-col gap-2">
+              <div className="font-sans text-xs font-bold tracking-widest text-[#2D1A14] uppercase flex items-center gap-2 select-none">
+                <Link href="/products" className="hover:text-[#C77065] transition-colors">
+                  PRODUCTS
+                </Link>
+                <span>|</span>
+                <Link href="/products/transport" className="hover:text-[#C77065] transition-colors">
+                  {displayCategory}
+                </Link>
+                <span>|</span>
+                <span className="text-[#2D1A14]">{displaySubcategory}</span>
+              </div>
+
+              <h1 className="font-accent text-4xl md:text-[48px] text-[#2D1A14] font-normal leading-tight">
+                Browse <span className="font-accent italic">pushchairs</span>
+              </h1>
             </div>
 
-            <h1 className="font-accent text-4xl md:text-[48px] text-[#2D1A14] font-normal leading-tight">
-              Browse <span className="font-accent italic">pushchairs</span>
-            </h1>
-          </div>
+            {/* Right: Expert Quote & Video Card */}
+            <div className="bg-[#EBE7DF] border border-[#CEBFA7] p-5 flex items-start gap-4 relative">
+              <img
+                src="/images/anita.png"
+                alt="Anita Expert Advice"
+                className="w-24 h-24 object-cover flex-shrink-0"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/images/baby-clothing.png';
+                }}
+              />
+              <div className="flex flex-col gap-2 flex-grow min-h-[90px] justify-between">
+                <p key={activeQuoteIndex} className="font-sans text-xs text-[#2D1A14]/80 leading-relaxed italic animate-fade-in">
+                  {expertQuotes[activeQuoteIndex]}
+                </p>
+                
+                <div className="flex justify-between items-center mt-1">
+                  <button
+                    type="button"
+                    onClick={() => setIsVideoOpen(true)}
+                    className="inline-flex items-center gap-2 text-xs font-bold font-sans text-[#2D1A14] hover:text-[#C77065] transition-colors bg-transparent border-none cursor-pointer p-0"
+                  >
+                    <span>Watch video</span>
+                    <span className="w-5 h-5 bg-[#C77065] text-[#F8F8F2] flex items-center justify-center text-[10px] shadow-sm hover:scale-110 transition-transform">
+                      ▶
+                    </span>
+                  </button>
 
-          {/* Right: Expert Quote & Video Card */}
-          <div className="bg-[#EBE7DF] border border-[#CEBFA7] p-5 flex items-start gap-4 relative">
-            <img
-              src="/images/anita.png"
-              alt="Anita Expert Advice"
-              className="w-24 h-24 object-cover flex-shrink-0"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '/images/baby-clothing.png';
-              }}
-            />
-            <div className="flex flex-col gap-2 flex-grow">
-              <p className="font-sans text-xs text-[#2D1A14]/80 leading-relaxed italic">
-                &quot;Lorem ipsum dolor sit amet consectetur. Id ornare egestas semper aenean faucibus scelerisque. Nibh volutpat a egestas amet blandit sit venenatis. Vestibulum egestas pellentesque lacus tincidunt.&quot;
-              </p>
-              
-              <div className="flex justify-between items-center mt-1">
-                <a href="#" className="inline-flex items-center gap-2 text-xs font-bold font-sans text-[#2D1A14] hover:text-[#C77065] transition-colors">
-                  <span>Watch video</span>
-                  <span className="w-5 h-5 bg-[#C77065] text-[#F8F8F2] flex items-center justify-center text-[10px]">
-                    ▶
-                  </span>
-                </a>
-
-                {/* Carousel Dots */}
-                <div className="flex gap-1.5 items-center">
-                  {[0, 1, 2, 3].map((dot) => (
-                    <button
-                      key={dot}
-                      onClick={() => setActiveQuoteIndex(dot)}
-                      className={`w-2 h-2 rounded-none transition-colors cursor-pointer border-none p-0 ${
-                        dot === activeQuoteIndex ? 'bg-[#2D1A14]' : 'bg-[#2D1A14]/30'
-                      }`}
-                    />
-                  ))}
+                  {/* Carousel Dots */}
+                  <div className="flex gap-1.5 items-center">
+                    {expertQuotes.map((_, dot) => (
+                      <button
+                        key={dot}
+                        onClick={() => setActiveQuoteIndex(dot)}
+                        className={`w-2.5 h-2.5 rounded-none transition-all duration-300 cursor-pointer border-none p-0 ${
+                          dot === activeQuoteIndex ? 'bg-[#C77065] scale-110' : 'bg-[#2D1A14]/30 hover:bg-[#2D1A14]/60'
+                        }`}
+                        aria-label={`Quote ${dot + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </RevealOnScroll>
+
+        {/* Video Lightbox Modal Popup */}
+        {isVideoOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in">
+            <div className="relative w-full max-w-4xl bg-[#2D1A14] rounded-none overflow-hidden shadow-2xl border border-[#CEBFA7]">
+              {/* Top Bar with Title & Close Button */}
+              <div className="flex justify-between items-center px-6 py-4 border-b border-[#CEBFA7]/30 bg-[#2D1A14] text-[#F8F8F2]">
+                <h3 className="font-accent text-lg font-normal">Anita's Pushchair Selection & Safety Guide</h3>
+                <button
+                  onClick={() => setIsVideoOpen(false)}
+                  className="w-8 h-8 rounded-none bg-[#C77065] text-[#F8F8F2] flex items-center justify-center font-bold text-sm hover:bg-[#b05d52] transition-colors cursor-pointer border-none shadow-sm"
+                  aria-label="Close video modal"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Video Player Frame */}
+              <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+                <iframe
+                  className="w-full h-full border-none"
+                  src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1"
+                  title="Pushchair Selection Expert Guide by Anita"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Filters & Subtitle Row */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -524,36 +546,39 @@ export default function CategoryProducts() {
           <div className="md:col-span-3 flex flex-col gap-10">
             {/* 3-Column Product Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {displayedProducts.map((prod) => (
-                <ProductCard
-                  key={prod.id}
-                  name={prod.name}
-                  price={prod.price}
-                  imageUrl={prod.imageUrl}
-                  href={`/products/${rawCategory}/${rawSubcategory}/${prod.id}`}
-                />
+              {displayedProducts.map((prod, idx) => (
+                <RevealOnScroll key={prod.id} animation="fade-up" delay={(idx % 3) * 120}>
+                  <ProductCard
+                    name={prod.name}
+                    price={prod.price}
+                    imageUrl={prod.imageUrl}
+                    href={`/products/${rawCategory}/${rawSubcategory}/${prod.id}`}
+                  />
+                </RevealOnScroll>
               ))}
             </div>
 
-            {/* REAL-TIME WORKING PAGINATION (Pages 1, 2, 3, 4 fully populated) */}
-            <div className="flex items-center gap-2 select-none">
-              {[1, 2, 3, 4].map((page) => (
-                <button
-                  key={page}
-                  onClick={() => {
-                    setCurrentPage(page);
-                    window.scrollTo({ top: 300, behavior: 'smooth' });
-                  }}
-                  className={`w-8 h-8 flex items-center justify-center font-sans text-xs font-bold transition-colors cursor-pointer border-none ${
-                    page === currentPage
-                      ? 'bg-[#D4C8B5] text-[#2D1A14]'
-                      : 'bg-[#EBE7DF] text-[#2D1A14]/70 hover:bg-[#D4C8B5]/60'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
+            {/* REAL-TIME DYNAMIC PAGINATION */}
+            {totalPages > 1 && (
+              <div className="flex items-center gap-2 select-none">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => {
+                      setCurrentPage(page);
+                      window.scrollTo({ top: 300, behavior: 'smooth' });
+                    }}
+                    className={`w-8 h-8 flex items-center justify-center font-sans text-xs font-bold transition-all duration-200 cursor-pointer border-none ${
+                      page === validPage
+                        ? 'bg-[#D4C8B5] text-[#2D1A14] scale-105 shadow-sm'
+                        : 'bg-[#EBE7DF] text-[#2D1A14]/70 hover:bg-[#D4C8B5]/60'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

@@ -14,11 +14,11 @@ use App\Http\Controllers\Api\PageController;
 
 // Auto-restore safeguard for Main Admin user
 if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
-    $admin = \App\Models\User::where('email', 'admin@anitaslist.com')->first();
+    $admin = \App\Models\User::where('email', 'admin@admin.com')->first();
     if (!$admin) {
         $admin = new \App\Models\User();
         $admin->name = 'Main Admin';
-        $admin->email = 'admin@anitaslist.com';
+        $admin->email = 'admin@admin.com';
         $admin->password = 'admin123';
         $admin->save();
     }
@@ -27,6 +27,8 @@ if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
 // Public Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Public Homepage Route
 Route::get('/homepage', function () {
