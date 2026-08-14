@@ -23,5 +23,21 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') !== 'local' || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) || isset($_SERVER['RAILWAY_STATIC_URL'])) {
             URL::forceScheme('https');
         }
+
+        // Ensure storage and temporary upload directories exist in production
+        $dirs = [
+            storage_path('app/public'),
+            storage_path('app/public/homepage'),
+            storage_path('app/public/avatars'),
+            storage_path('app/public/products'),
+            storage_path('app/public/livewire-tmp'),
+            storage_path('app/livewire-tmp'),
+        ];
+
+        foreach ($dirs as $dir) {
+            if (!file_exists($dir)) {
+                @mkdir($dir, 0777, true);
+            }
+        }
     }
 }

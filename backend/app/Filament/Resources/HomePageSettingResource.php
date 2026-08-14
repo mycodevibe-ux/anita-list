@@ -45,6 +45,8 @@ class HomePageSettingResource extends Resource
                                         Forms\Components\FileUpload::make('image')
                                             ->label('Background Image')
                                             ->image()
+                                            ->maxSize(10240)
+                                            ->visibility('public')
                                             ->deletable()
                                             ->directory('homepage'),
                                     ])
@@ -111,6 +113,8 @@ class HomePageSettingResource extends Resource
                                 Forms\Components\FileUpload::make('expert_advice_image')
                                     ->label('Side Image')
                                     ->image()
+                                    ->maxSize(10240)
+                                    ->visibility('public')
                                     ->deletable()
                                     ->directory('homepage'),
                             ]),
