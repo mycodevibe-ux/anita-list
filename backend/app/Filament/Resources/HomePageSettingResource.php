@@ -43,12 +43,16 @@ class HomePageSettingResource extends Resource
                                             ->label('Slide Subtitle')
                                             ->placeholder('e.g. Discover baby essentials, seek advice...'),
                                         Forms\Components\FileUpload::make('image')
-                                            ->label('Background Image')
+                                            ->label('Upload Background Image')
                                             ->image()
+                                            ->disk('public')
                                             ->maxSize(10240)
                                             ->visibility('public')
                                             ->deletable()
                                             ->directory('homepage'),
+                                        Forms\Components\TextInput::make('image_url')
+                                            ->label('Or Image URL / Path (Optional)')
+                                            ->placeholder('e.g. /images/banner1.jpg or https://...'),
                                     ])
                                     ->collapsible()
                                     ->defaultItems(1)
@@ -113,6 +117,7 @@ class HomePageSettingResource extends Resource
                                 Forms\Components\FileUpload::make('expert_advice_image')
                                     ->label('Side Image')
                                     ->image()
+                                    ->disk('public')
                                     ->maxSize(10240)
                                     ->visibility('public')
                                     ->deletable()
