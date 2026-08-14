@@ -43,4 +43,4 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 
 EXPOSE 80
 
-CMD ["sh", "-c", "mkdir -p storage/app/public/homepage storage/app/public/avatars storage/app/livewire-tmp && chown -R www-data:www-data storage bootstrap/cache && chmod -R 777 storage bootstrap/cache && php artisan key:generate --force && php artisan storage:link --force && php artisan migrate --force && apache2-foreground"]
+CMD ["sh", "-c", "mkdir -p database storage/app/public/homepage storage/app/public/avatars storage/app/livewire-tmp && chown -R www-data:www-data storage bootstrap/cache database && chmod -R 777 storage bootstrap/cache database && php artisan key:generate --force && php artisan storage:link --force && php artisan migrate --force && php artisan db:seed --force && apache2-foreground"]

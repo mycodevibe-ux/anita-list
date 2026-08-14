@@ -1,2 +1,1 @@
-# Allow database.sqlite to be tracked in Git for permanent deployment data persistence
-!.gitkeep
+*.sqlite*
