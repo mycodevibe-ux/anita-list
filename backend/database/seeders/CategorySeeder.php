@@ -15,64 +15,174 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Nursery & Decor',
-                'description' => 'Everything you need to create a beautiful nursery.',
-                'image_url' => 'https://images.unsplash.com/photo-1595930920038-f99a4c5eb448?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Cribs', 'Bedding', 'Decor', 'Storage', 'Monitors']
+                'name' => 'Transport',
+                'description' => 'Strollers, car seats, carriers, and pushchairs.',
+                'image_url' => '/images/banner4.jpg',
+                'subcategories' => [
+                    'Pushchairs',
+                    'Car Seats',
+                    'Baby Carriers',
+                    'Newborn car seats',
+                    'Car seat bases',
+                    'Car seat accessories',
+                    'Carrycots and seats',
+                    'Rain covers',
+                    'Mosquito nets',
+                    'Footmuffs',
+                    'Sheepskin liners',
+                    'Liners & snugglers'
+                ]
             ],
             [
-                'name' => 'Travel',
-                'description' => 'Strollers, car seats, and on-the-go essentials.',
-                'image_url' => 'https://images.unsplash.com/photo-1544299839-826640dae3b6?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Strollers', 'Car Seats', 'Baby Carriers', 'Diaper Bags', 'Travel Accessories']
+                'name' => 'Baby clothing',
+                'description' => 'Sleepsuits, bodysuits, sun hats, and scratch mittens.',
+                'image_url' => '/images/baby-clothing.png',
+                'subcategories' => [
+                    'Newborn Sleepsuits',
+                    'Bodysuits & Onesies',
+                    'Scratch Mittens',
+                    'Sun Hats',
+                    'Booties & Socks',
+                    'Toddler Clothing'
+                ]
             ],
             [
-                'name' => 'Feeding',
-                'description' => 'Bottles, high chairs, and mealtime supplies.',
-                'image_url' => 'https://images.unsplash.com/photo-1519782522736-2580df3e48d3?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['High Chairs', 'Bottles', 'Breastfeeding', 'Pacifiers', 'Toddler Feeding']
+                'name' => 'Bathing',
+                'description' => 'Baby baths, towels, bath seats, and sponge care.',
+                'image_url' => '/images/bathing.png',
+                'subcategories' => [
+                    'Baby Baths',
+                    'Bath Seats',
+                    'Hooded Towels',
+                    'Bath Sponges & Care'
+                ]
             ],
             [
-                'name' => 'Bath & Health',
-                'description' => 'Tub time and baby care essentials.',
-                'image_url' => 'https://images.unsplash.com/photo-1595166258097-b2ebbb410972?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Bathtubs', 'Towels', 'Skincare', 'Health & Safety', 'Potty Training']
+                'name' => 'Bedding',
+                'description' => 'Cribs, Moses baskets, mattresses, and fitted sheets.',
+                'image_url' => '/images/bedding.png',
+                'subcategories' => [
+                    'Moses Baskets',
+                    'Cribs & Bassinets',
+                    'Fitted Sheets',
+                    'Sleeping Bags & Swaddles',
+                    'Mattresses'
+                ]
             ],
             [
-                'name' => 'Clothing',
-                'description' => 'Adorable apparel for newborns and toddlers.',
-                'image_url' => 'https://images.unsplash.com/photo-1522771930-78848d9293e8?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Bodysuits', 'Sleepwear', 'Tops', 'Bottoms', 'Accessories']
+                'name' => 'Cleaning',
+                'description' => 'Sterilizers, bottle washers, and hygiene gear.',
+                'image_url' => '/images/banner5.jpg',
+                'subcategories' => [
+                    'Electric Sterilizers',
+                    'Microwave Sterilizers',
+                    'Bottle Washers'
+                ]
             ],
             [
-                'name' => 'Toys & Learning',
-                'description' => 'Educational toys and play mats.',
-                'image_url' => 'https://images.unsplash.com/photo-1560021319-3bfec9ed93c8?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Activity Centers', 'Bouncers', 'Plush Toys', 'Books', 'Learning Toys']
+                'name' => 'Feeding and weaning',
+                'description' => 'Bottles, high chairs, breast pumps, and weaning accessories.',
+                'image_url' => '/images/hero-1.jpg',
+                'subcategories' => [
+                    'Bottles & Teats',
+                    'High Chairs',
+                    'Breast Pumps',
+                    'Weaning Sets',
+                    'Bibs'
+                ]
             ],
             [
-                'name' => 'Gifts',
-                'description' => 'Perfect presents for baby showers.',
-                'image_url' => 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=600&auto=format&fit=crop',
-                'subcategories' => ['Gift Sets', 'Keepsakes', 'Gift Cards']
-            ]
+                'name' => 'Monitors',
+                'description' => 'Video baby monitors, audio monitors, and digital thermometers.',
+                'image_url' => '/images/banner1.jpg',
+                'subcategories' => [
+                    'Video Monitors',
+                    'Audio Monitors',
+                    'Thermometers',
+                    'Movement Monitors'
+                ]
+            ],
+            [
+                'name' => 'Mothers',
+                'description' => 'Maternity pillows, postpartum care, and nursing gear.',
+                'image_url' => '/images/anita.png',
+                'subcategories' => [
+                    'Maternity Pillows',
+                    'Postpartum Care',
+                    'Nursing Bras & Covers'
+                ]
+            ],
+            [
+                'name' => 'Nappies & lotions',
+                'description' => 'Eco nappies, baby wipes, organic lotions, and barrier creams.',
+                'image_url' => '/images/banner3.jpg',
+                'subcategories' => [
+                    'Nappies & Diapers',
+                    'Wipes',
+                    'Baby Lotions & Oils',
+                    'Nappy Creams'
+                ]
+            ],
+            [
+                'name' => 'Nursery',
+                'description' => 'Storage, wall decor, night lights, and mobiles.',
+                'image_url' => '/images/hero-2.jpg',
+                'subcategories' => [
+                    'Nursery Storage',
+                    'Decor & Wall Art',
+                    'Night Lights',
+                    'Mobiles'
+                ]
+            ],
+            [
+                'name' => 'Toys & play',
+                'description' => 'Play mats, bouncers, wooden teethers, and plush toys.',
+                'image_url' => '/images/banner2.jpg',
+                'subcategories' => [
+                    'Baby Bouncers',
+                    'Play Mats & Gyms',
+                    'Teethers & Rattles',
+                    'Plush Toys'
+                ]
+            ],
+            [
+                'name' => 'Gift ideas',
+                'description' => 'Baby shower gifts, memory books, and keepsakes.',
+                'image_url' => '/images/banner4.jpg',
+                'subcategories' => [
+                    'Gift Sets',
+                    'Keepsakes',
+                    'Story Books',
+                    'Gift Cards'
+                ]
+            ],
         ];
 
         foreach ($categories as $catData) {
-            $parent = Category::create([
-                'name' => $catData['name'],
-                'slug' => Str::slug($catData['name']),
-                'description' => $catData['description'],
-                'image_url' => $catData['image_url'],
-                'parent_id' => null,
-            ]);
+            $parent = Category::firstOrCreate(
+                ['slug' => Str::slug($catData['name'])],
+                [
+                    'name' => $catData['name'],
+                    'description' => $catData['description'],
+                    'image_url' => $catData['image_url'],
+                    'parent_id' => null,
+                ]
+            );
+
+            // Ensure parent image_url is populated
+            if (!$parent->image_url) {
+                $parent->update(['image_url' => $catData['image_url']]);
+            }
 
             foreach ($catData['subcategories'] as $subName) {
-                Category::create([
-                    'name' => $subName,
-                    'slug' => Str::slug($subName),
-                    'parent_id' => $parent->id,
-                ]);
+                Category::firstOrCreate(
+                    ['slug' => Str::slug($subName)],
+                    [
+                        'name' => $subName,
+                        'parent_id' => $parent->id,
+                        'image_url' => $catData['image_url'],
+                    ]
+                );
             }
         }
     }

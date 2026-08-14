@@ -32,10 +32,16 @@ class CategoryResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image_url')
-                    ->image(),
-                Forms\Components\TextInput::make('parent_id')
-                    ->numeric()
-                    ->default(null),
+                    ->label('Category Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('categories')
+                    ->visibility('public'),
+                Forms\Components\Select::make('parent_id')
+                    ->label('Parent Category (Leave empty if Main Category)')
+                    ->options(\App\Models\Category::whereNull('parent_id')->pluck('name', 'id'))
+                    ->searchable()
+                    ->nullable(),
             ]);
     }
 
