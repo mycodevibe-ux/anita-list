@@ -9,6 +9,9 @@ ENV DB_DATABASE=/var/www/html/database/database.sqlite
 # Enable Apache mod_rewrite for Laravel routing
 RUN a2enmod rewrite
 
+# Configure PHP upload limits & memory limit for Livewire uploads
+RUN echo "upload_max_filesize = 64M\npost_max_size = 64M\nmemory_limit = 512M" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Change Apache DocumentRoot to Laravel public directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -24,7 +27,11 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN cp .env.example .env && mkdir -p database && touch database/database.sqlite && chmod -R 777 storage bootstrap/cache database
+RUN cp .env.example .env && \
+    mkdir -p database storage/app/public/homepage storage/app/public/avatars storage/app/public/products storage/app/livewire-tmp storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache && \
+    touch database/database.sqlite && \
+    chown -R www-data:www-data storage bootstrap/cache database && \
+    chmod -R 777 storage bootstrap/cache database
 
 RUN composer install --no-dev --optimize-autoloader
 
@@ -35,4 +42,4 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 
 EXPOSE 80
 
-CMD ["sh", "-c", "php artisan key:generate --force && php artisan storage:link && php artisan migrate --force && php artisan db:seed --force && apache2-foreground"]
+CMD ["sh", "-c", "mkdir -p storage/app/public/homepage storage/app/public/avatars storage/app/livewire-tmp && chown -R www-data:www-data storage bootstrap/cache && chmod -R 777 storage bootstrap/cache && php artisan key:generate --force && php artisan storage:link --force && php artisan migrate --force && php artisan db:seed --force && apache2-foreground"]
