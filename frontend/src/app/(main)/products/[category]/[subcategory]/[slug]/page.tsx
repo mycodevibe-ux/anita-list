@@ -213,17 +213,17 @@ export default function ProductDetail() {
             subcategory: initialProduct.subcategory,
             imageUrl: res.data.image ? `${storageUrl}${res.data.image}` : initialProduct.imageUrl,
             description: res.data.description || initialProduct.description,
-            retailers: res.data.buying_options && res.data.buying_options.length > 0
-              ? res.data.buying_options.map((b: any) => ({
-                  name: b.retailer_name || "Retailer",
-                  price: b.price ? `£${b.price}` : initialProduct.price,
-                  link: b.buy_url || "#",
+            retailers: ((res.data.buying_options || res.data.buyingOptions) && (res.data.buying_options || res.data.buyingOptions).length > 0)
+              ? (res.data.buying_options || res.data.buyingOptions).map((b: any) => ({
+                  name: b.retailer_name || b.name || "Retailer",
+                  price: b.price ? (String(b.price).includes('£') ? b.price : `£${b.price}`) : initialProduct.price,
+                  link: b.affiliate_link || b.buy_url || b.link || "#",
                 }))
               : initialProduct.retailers,
-            specs: res.data.specs && res.data.specs.length > 0
+            specs: (res.data.specs && res.data.specs.length > 0)
               ? res.data.specs.map((s: any) => ({
-                  title: s.title || "Specification",
-                  detail: s.detail || "",
+                  title: s.spec_name || s.title || "Specification",
+                  detail: s.spec_value || s.detail || "",
                 }))
               : initialProduct.specs,
           };
