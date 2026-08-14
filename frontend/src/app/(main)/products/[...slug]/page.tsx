@@ -9,16 +9,107 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 // Sidebar categories list strictly matching Figma design
 const mockSidebarCategories: CategoryItem[] = [
-  { name: "Baby clothing", slug: "baby-clothing", subcategories: [] },
-  { name: "Bedding", slug: "bedding", subcategories: [] },
-  { name: "Cleaning", slug: "cleaning", subcategories: [] },
-  { name: "Feeding & weaning", slug: "feeding-weaning", subcategories: [] },
-  { name: "Monitors", slug: "monitors", subcategories: [] },
-  { name: "Mothers", slug: "mothers", subcategories: [] },
-  { name: "Nappies & lotions", slug: "nappies-lotions", subcategories: [] },
-  { name: "Nursery", slug: "nursery", subcategories: [] },
-  { name: "Toys & play", slug: "toys-play", subcategories: [] },
-  { name: "Travel", slug: "travel", subcategories: [] },
+  {
+    name: "Baby clothing",
+    slug: "baby-clothing",
+    subcategories: [
+      { name: "Newborn Sleepsuits", slug: "newborn-sleepsuits" },
+      { name: "Bodysuits & Onesies", slug: "bodysuits-onesies" },
+      { name: "Scratch Mittens", slug: "scratch-mittens" },
+      { name: "Sun Hats", slug: "sun-hats" },
+      { name: "Booties & Socks", slug: "booties-socks" },
+      { name: "Toddler Clothing", slug: "toddler-clothing" },
+    ],
+  },
+  {
+    name: "Bedding",
+    slug: "bedding",
+    subcategories: [
+      { name: "Moses Baskets", slug: "moses-baskets" },
+      { name: "Cribs & Bassinets", slug: "cribs-bassinets" },
+      { name: "Fitted Sheets", slug: "fitted-sheets" },
+      { name: "Sleeping Bags & Swaddles", slug: "sleeping-bags-swaddles" },
+      { name: "Mattresses", slug: "mattresses" },
+    ],
+  },
+  {
+    name: "Cleaning",
+    slug: "cleaning",
+    subcategories: [
+      { name: "Electric Sterilizers", slug: "electric-sterilizers" },
+      { name: "Microwave Sterilizers", slug: "microwave-sterilizers" },
+      { name: "Bottle Washers", slug: "bottle-washers" },
+    ],
+  },
+  {
+    name: "Feeding & weaning",
+    slug: "feeding-weaning",
+    subcategories: [
+      { name: "Bottles & Teats", slug: "bottles-teats" },
+      { name: "High Chairs", slug: "high-chairs" },
+      { name: "Breast Pumps", slug: "breast-pumps" },
+      { name: "Weaning Sets", slug: "weaning-sets" },
+      { name: "Bibs", slug: "bibs" },
+    ],
+  },
+  {
+    name: "Monitors",
+    slug: "monitors",
+    subcategories: [
+      { name: "Video Monitors", slug: "video-monitors" },
+      { name: "Audio Monitors", slug: "audio-monitors" },
+      { name: "Thermometers", slug: "thermometers" },
+      { name: "Movement Monitors", slug: "movement-monitors" },
+    ],
+  },
+  {
+    name: "Mothers",
+    slug: "mothers",
+    subcategories: [
+      { name: "Maternity Pillows", slug: "maternity-pillows" },
+      { name: "Postpartum Care", slug: "postpartum-care" },
+      { name: "Nursing Bras & Covers", slug: "nursing-bras-covers" },
+    ],
+  },
+  {
+    name: "Nappies & lotions",
+    slug: "nappies-lotions",
+    subcategories: [
+      { name: "Nappies & Diapers", slug: "nappies-diapers" },
+      { name: "Wipes", slug: "wipes" },
+      { name: "Baby Lotions & Oils", slug: "baby-lotions-oils" },
+      { name: "Nappy Creams", slug: "nappy-creams" },
+    ],
+  },
+  {
+    name: "Nursery",
+    slug: "nursery",
+    subcategories: [
+      { name: "Nursery Storage", slug: "nursery-storage" },
+      { name: "Decor & Wall Art", slug: "decor-wall-art" },
+      { name: "Night Lights", slug: "night-lights" },
+      { name: "Mobiles", slug: "mobiles" },
+    ],
+  },
+  {
+    name: "Toys & play",
+    slug: "toys-play",
+    subcategories: [
+      { name: "Baby Bouncers", slug: "baby-bouncers" },
+      { name: "Play Mats & Gyms", slug: "play-mats-gyms" },
+      { name: "Teethers & Rattles", slug: "teethers-rattles" },
+      { name: "Plush Toys", slug: "plush-toys" },
+    ],
+  },
+  {
+    name: "Travel",
+    slug: "travel",
+    subcategories: [
+      { name: "Travel Cots", slug: "travel-cots" },
+      { name: "Travel High Chairs", slug: "travel-high-chairs" },
+      { name: "Car Organizers", slug: "car-organizers" },
+    ],
+  },
   {
     name: "Transport",
     slug: "transport",

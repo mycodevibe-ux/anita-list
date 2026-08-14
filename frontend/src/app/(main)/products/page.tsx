@@ -53,12 +53,25 @@ function ProductsContent() {
       try {
         const response = await api.get('/categories');
         if (response.data && response.data.length > 0) {
-          const merged = response.data.map((item: Category, index: number) => ({
-            ...item,
-            image_url: item.image_url && item.image_url.startsWith('http') 
-              ? item.image_url 
-              : defaultCategories[index % defaultCategories.length].image_url
-          }));
+          const getApiBaseUrl = () => {
+            const envUrl = process.env.NEXT_PUBLIC_API_URL || 'https://anita-list-backend-production.up.railway.app/api';
+            return envUrl.replace(/\/api\/?$/, '');
+          };
+
+          const merged = response.data.map((item: Category, index: number) => {
+            let img = item.image_url;
+            if (img) {
+              if (img.startsWith('/storage/')) {
+                img = `${getApiBaseUrl()}${img}`;
+              }
+            } else {
+              img = defaultCategories[index % defaultCategories.length].image_url;
+            }
+            return {
+              ...item,
+              image_url: img,
+            };
+          });
           setCategories(merged);
         }
       } catch (error) {
