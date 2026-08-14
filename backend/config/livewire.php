@@ -14,7 +14,7 @@ return [
 
     'temporary_file_upload' => [
         'disk' => 'public',
-        'rules' => ['file', 'max:10240'], // 10MB max upload size
+        'rules' => ['file', 'max:51200'], // 50MB max upload size
         'directory' => 'livewire-tmp',
         'middleware' => null,
         'preview_mimes' => [

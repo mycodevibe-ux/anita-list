@@ -3,6 +3,7 @@ FROM php:8.2-apache
 ENV APP_ENV=production
 ENV APP_DEBUG=true
 ENV APP_KEY=base64:GFJvxsWXPiH+z4NNJ9J9YgbcMmPkKok2fZbMy/nfMU4=
+ENV APP_URL=https://anita-list-backend-production.up.railway.app
 ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
 

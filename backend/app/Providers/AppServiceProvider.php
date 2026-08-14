@@ -20,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('app.env') !== 'local' || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) || isset($_SERVER['RAILWAY_STATIC_URL'])) {
+        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] !== 'localhost' && $_SERVER['HTTP_HOST'] !== '127.0.0.1') {
+            URL::forceScheme('https');
+            URL::forceRootUrl('https://' . $_SERVER['HTTP_HOST']);
+        } else if (config('app.env') !== 'local' || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) || isset($_SERVER['RAILWAY_STATIC_URL'])) {
             URL::forceScheme('https');
         }
 
